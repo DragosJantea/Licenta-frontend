@@ -1,21 +1,47 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import "./Login.css";
 
 const Login = () => {
   const [form, setForm] = useState({
-    email: "",
+    username: "",
     password: "",
   });
+
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log("Login form submitted", form);
+    try {
+      const response = await fetch("http://localhost:8080/clients/sessions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: form.username,
+          password: form.password,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Login successful", data);
+        login(data.jwt); // Save the JWT token in context
+        navigate("/"); // Redirect to the home page or another protected page
+      } else {
+        console.error("Login failed");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -24,9 +50,9 @@ const Login = () => {
       <form onSubmit={handleSubmit}>
         <input
           type="email"
-          name="email"
+          name="username"
           placeholder="Email"
-          value={form.email}
+          value={form.username}
           onChange={handleChange}
         />
         <input

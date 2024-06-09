@@ -1,8 +1,20 @@
 import React from "react";
-import "../App.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import "./Navbar.css";
 
 const Navbar = () => {
+  const { auth, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleAuthAction = () => {
+    if (auth) {
+      logout();
+    } else {
+      navigate("/login");
+    }
+  };
+
   return (
     <header className="header">
       <div className="logo"> {/* You can place your logo here */}</div>
@@ -12,7 +24,18 @@ const Navbar = () => {
             <Link to="/alloffers">All Offers</Link>
           </li>
           <li>
+            <Link to="/myoffers">My Offers</Link>
+          </li>
+          <li>
             <Link to="/myactions">My Actions</Link>
+          </li>
+          <li>
+            <Link to="/register">Register</Link>
+          </li>
+          <li>
+            <button className="auth-button" onClick={handleAuthAction}>
+              {auth ? "Logout" : "Login"}
+            </button>
           </li>
         </ul>
       </nav>
