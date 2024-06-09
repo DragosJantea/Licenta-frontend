@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import "./Navbar.css";
 
 const Navbar = () => {
-  const { auth, logout } = useAuth();
+  const { auth, role, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleAuthAction = () => {
@@ -20,18 +20,24 @@ const Navbar = () => {
       <div className="logo"> {/* You can place your logo here */}</div>
       <nav>
         <ul>
-          <li>
-            <Link to="/alloffers">All Offers</Link>
-          </li>
-          <li>
-            <Link to="/myoffers">My Offers</Link>
-          </li>
+          {role === "client" && (
+            <li>
+              <Link to="/alloffers">All Offers</Link>
+            </li>
+          )}
+          {role === "vendor" && (
+            <li>
+              <Link to="/myoffers">My Offers</Link>
+            </li>
+          )}
           <li>
             <Link to="/myactions">My Actions</Link>
           </li>
-          <li>
-            <Link to="/register">Register</Link>
-          </li>
+          {!auth && (
+            <li>
+              <Link to="/register">Register</Link>
+            </li>
+          )}
           <li>
             <button className="auth-button" onClick={handleAuthAction}>
               {auth ? "Logout" : "Login"}

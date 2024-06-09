@@ -7,6 +7,7 @@ const Login = () => {
   const [form, setForm] = useState({
     username: "",
     password: "",
+    role: "client", // Default role
   });
 
   const { login } = useAuth();
@@ -15,6 +16,10 @@ const Login = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
+  };
+
+  const handleRoleChange = (e) => {
+    setForm({ ...form, role: e.target.value });
   };
 
   const handleSubmit = async (e) => {
@@ -34,7 +39,7 @@ const Login = () => {
       if (response.ok) {
         const data = await response.json();
         console.log("Login successful", data);
-        login(data.jwt); // Save the JWT token in context
+        login(data.jwt, form.role); // Save the JWT token and role in context
         navigate("/"); // Redirect to the home page or another protected page
       } else {
         console.error("Login failed");
@@ -62,6 +67,28 @@ const Login = () => {
           value={form.password}
           onChange={handleChange}
         />
+        <div className="role-selection">
+          <label>
+            <input
+              type="radio"
+              name="role"
+              value="client"
+              checked={form.role === "client"}
+              onChange={handleRoleChange}
+            />
+            Client
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="role"
+              value="vendor"
+              checked={form.role === "vendor"}
+              onChange={handleRoleChange}
+            />
+            Vendor
+          </label>
+        </div>
         <button type="submit">Login</button>
       </form>
     </div>
