@@ -24,8 +24,13 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const url =
+      form.role === "client"
+        ? "http://localhost:8080/clients/sessions"
+        : "http://localhost:8080/vendors/sessions";
+
     try {
-      const response = await fetch("http://localhost:8080/clients/sessions", {
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

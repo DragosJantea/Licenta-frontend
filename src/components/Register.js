@@ -9,6 +9,7 @@ const Register = () => {
     email: "",
     password: "",
     role: "client", // Default to client
+    vendorType: "", // Vendor type, only used if role is vendor
   });
 
   const navigate = useNavigate();
@@ -24,34 +25,44 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (form.role === "client") {
-      try {
-        const response = await fetch("http://localhost:8080/clients", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
+    const url =
+      form.role === "client"
+        ? "http://localhost:8080/clients"
+        : "http://localhost:8080/vendors";
+    const body =
+      form.role === "client"
+        ? {
             firstName: form.firstName,
             lastName: form.lastName,
             email: form.email,
             password: form.password,
-          }),
-        });
+          }
+        : {
+            firstName: form.firstName,
+            lastName: form.lastName,
+            email: form.email,
+            password: form.password,
+            vendorType: form.vendorType,
+          };
 
-        if (response.ok) {
-          const data = await response.json();
-          console.log("Registration successful", data);
-          navigate("/login"); // Redirect to login page
-        } else {
-          console.error("Registration failed");
-        }
-      } catch (error) {
-        console.error("Error:", error);
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Registration successful", data);
+        navigate("/login"); // Redirect to login page
+      } else {
+        console.error("Registration failed");
       }
-    } else {
-      console.log("Vendor registration selected, but not implemented.");
-      // Handle vendor registration logic here when implemented
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
 
@@ -109,6 +120,15 @@ const Register = () => {
             Vendor
           </label>
         </div>
+        {form.role === "vendor" && (
+          <input
+            type="text"
+            name="vendorType"
+            placeholder="Vendor Type (e.g., VENUES)"
+            value={form.vendorType}
+            onChange={handleChange}
+          />
+        )}
         <button type="submit">Register</button>
       </form>
     </div>
