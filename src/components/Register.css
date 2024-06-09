@@ -1,0 +1,48 @@
+.register-container {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.register-container h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.register-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.register-container form input {
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.role-selection {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.role-selection label {
+  display: flex;
+  align-items: center;
+}
+
+.role-selection input {
+  margin-right: 0.5rem;
+}
+
+.register-container form button {
+  padding: 0.5rem;
+  border: none;
+  background-color: #00bfa6;
+  color: white;
+  cursor: pointer;
+}

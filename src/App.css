@@ -1,0 +1,89 @@
+/* Basic reset and styling */
+body,
+html,
+#root {
+  margin: 0;
+  padding: 0;
+  font-family: "Arial", sans-serif;
+}
+
+/* Header styles */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: white;
+}
+
+.header nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.header nav ul li a {
+  text-decoration: none;
+  color: black;
+}
+
+.header .contact-button button {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+/* Hero section styles */
+.hero-section {
+  display: flex;
+  padding: 2rem;
+  background-color: #f4f8f9;
+}
+
+.hero-text {
+  flex: 1;
+}
+
+.hero-image {
+  flex: 1;
+}
+
+.hero-text h3 {
+  color: #d49d92;
+}
+
+.hero-text h1 {
+  font-size: 2.5rem;
+  margin: 1rem 0;
+}
+
+.hero-text p {
+  font-size: 1rem;
+  color: gray;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.call-button {
+  background-color: #00bfa6;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+}
+
+.video-button {
+  background-color: #ffc107;
+  color: black;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+}
+
+/* Add additional styles as necessary */
