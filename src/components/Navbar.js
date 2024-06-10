@@ -30,6 +30,11 @@ const Navbar = () => {
               <Link to="/myoffers">My Offers</Link>
             </li>
           )}
+          {role === "vendor" && (
+            <li>
+              <Link to="/createoffer">Create Offer</Link>
+            </li>
+          )}
           <li>
             <Link to="/myactions">My Actions</Link>
           </li>

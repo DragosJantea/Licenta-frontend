@@ -9,6 +9,7 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import { AuthProvider } from "./context/AuthContext";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import CreateOfferForm from "./components/CreateOfferForm";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
               <Route path="/login" element={<Login />} />
               <Route path="/myactions" element={<MyActions />} />
               <Route path="/myoffers" element={<MyOffers />} />
+              <Route path="/createoffer" element={<CreateOfferForm />} />
             </Routes>
           </Layout>
         </Router>

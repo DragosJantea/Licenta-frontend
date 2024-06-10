@@ -1,0 +1,13 @@
+.all-offers {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.all-offers h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}

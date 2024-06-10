@@ -1,0 +1,20 @@
+.offer {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.offer h3 {
+  margin-top: 0;
+}
+
+.offer ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.offer ul li {
+  margin-bottom: 0.5rem;
+}
