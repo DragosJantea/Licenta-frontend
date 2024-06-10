@@ -11,3 +11,28 @@
   text-align: center;
   margin-bottom: 1rem;
 }
+
+.offer-container {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.request-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-top: 1rem;
+  align-self: flex-start;
+}
+
+.request-button:hover {
+  background-color: #218838;
+}

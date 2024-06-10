@@ -34,11 +34,46 @@ const AllOffers = () => {
     }
   }, [auth]);
 
+  const handleRequest = async (offerId) => {
+    try {
+      const response = await fetch(
+        "http://localhost:8080/clients/me/offerRequest",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${auth}`,
+          },
+          body: JSON.stringify({ offerId }),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Offer request created successfully", data);
+      } else {
+        console.error("Failed to create offer request");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   return (
     <div className="all-offers">
       <h2>All Offers</h2>
       {offers.length > 0 ? (
-        offers.map((offer) => <Offer key={offer.id} offer={offer} />)
+        offers.map((offer) => (
+          <div key={offer.id} className="offer-container">
+            <Offer offer={offer} />
+            <button
+              className="request-button"
+              onClick={() => handleRequest(offer.id)}
+            >
+              Request
+            </button>
+          </div>
+        ))
       ) : (
         <p>No offers found.</p>
       )}
