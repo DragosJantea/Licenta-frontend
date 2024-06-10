@@ -73,6 +73,36 @@ const MyActions = () => {
     }
   };
 
+  const handleRequestAction = async (offerRequestId, status) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/vendors/me/offerRequests/${offerRequestId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${auth}`,
+          },
+          body: JSON.stringify({ status }),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(`Offer request ${status.toLowerCase()} successfully`, data);
+        setData((prevData) =>
+          prevData.map((item) =>
+            item.offerRequestId === data.offerRequestId ? data : item
+          )
+        );
+      } else {
+        console.error(`Failed to ${status.toLowerCase()} offer request`);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   return (
     <div className="my-actions">
       <h2>My Actions</h2>
@@ -110,6 +140,7 @@ const MyActions = () => {
             <OfferRequests
               offerId={offer.id}
               fetchOfferRequests={fetchOfferRequests}
+              handleRequestAction={handleRequestAction}
             />
           </div>
         ))
@@ -120,7 +151,11 @@ const MyActions = () => {
   );
 };
 
-const OfferRequests = ({ offerId, fetchOfferRequests }) => {
+const OfferRequests = ({
+  offerId,
+  fetchOfferRequests,
+  handleRequestAction,
+}) => {
   const [requests, setRequests] = useState([]);
 
   useEffect(() => {
@@ -140,8 +175,22 @@ const OfferRequests = ({ offerId, fetchOfferRequests }) => {
           <div>Date: {request.offerRequestDate}</div>
           <div>Status: {request.offerRequestStatus}</div>
           <div>Client ID: {request.clientId}</div>
-          <button className="approve-button">Approve</button>
-          <button className="deny-button">Deny</button>
+          <button
+            className="approve-button"
+            onClick={() =>
+              handleRequestAction(request.offerRequestId, "ACCEPTED")
+            }
+          >
+            Approve
+          </button>
+          <button
+            className="deny-button"
+            onClick={() =>
+              handleRequestAction(request.offerRequestId, "REJECTED")
+            }
+          >
+            Deny
+          </button>
         </li>
       ))}
     </ul>
