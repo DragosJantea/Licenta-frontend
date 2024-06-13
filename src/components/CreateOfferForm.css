@@ -45,3 +45,11 @@
 .create-offer-form form button[type="button"] {
   background-color: #007bff;
 }
+
+.create-offer-form .dropzone {
+  border: 2px dashed #cccccc;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 20px;
+}

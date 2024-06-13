@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useDropzone } from 'react-dropzone';
 import "./CreateOfferForm.css";
 
 const CreateOfferForm = () => {
@@ -22,6 +23,8 @@ const CreateOfferForm = () => {
       },
     ],
   });
+
+  const [image, setImage] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -53,16 +56,24 @@ const CreateOfferForm = () => {
     });
   };
 
+  const handleDrop = (acceptedFiles) => {
+    setImage(acceptedFiles[0]);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('image', image);
+    formData.append('offer', JSON.stringify(form));
+
     try {
       const response = await fetch("http://localhost:8080/vendors/me/offers", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${auth}`,
         },
-        body: JSON.stringify(form),
+        body: formData,
       });
 
       if (response.ok) {
@@ -75,6 +86,11 @@ const CreateOfferForm = () => {
       console.error("Error:", error);
     }
   };
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop: handleDrop,
+    accept: 'image/*',
+  });
 
   return (
     <div className="create-offer-form">
@@ -146,6 +162,14 @@ const CreateOfferForm = () => {
         <button type="button" onClick={addSchedule}>
           Add Schedule
         </button>
+        <div {...getRootProps({ className: 'dropzone' })}>
+          <input {...getInputProps()} />
+          {image ? (
+            <p>{image.name}</p>
+          ) : (
+            <p>Drag 'n' drop an image here, or click to select one</p>
+          )}
+        </div>
         <button type="submit">Create Offer</button>
       </form>
     </div>

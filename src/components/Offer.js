@@ -6,6 +6,7 @@ const Offer = ({ offer }) => {
     <div className="offer">
       <h3>{offer.name}</h3>
       <p>{offer.description}</p>
+      <img src={offer.imageUrl} alt={offer.name} />
       <h4>Schedules:</h4>
       <ul>
         {offer.schedules.map((schedule, index) => (
