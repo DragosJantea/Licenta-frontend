@@ -3,32 +3,34 @@ import HeroSection from "./components/HeroSection";
 import Layout from "./components/Layout";
 import "./App.css";
 import AllOffers from "./components/AllOffers";
-import MyActions from "./components/MyActions";
-import MyOffers from "./components/MyOffers";
 import Register from "./components/Register";
 import Login from "./components/Login";
-import { AuthProvider } from "./context/AuthContext";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import MyOffers from "./components/MyOffers";
 import CreateOfferForm from "./components/CreateOfferForm";
+import MyActions from "./components/MyActions";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import ToDoList from "./components/ToDoList";
 
 const App = () => {
   return (
     <div className="App">
-      <AuthProvider>
-        <Router>
+      <Router>
+        <AuthProvider>
           <Layout>
             <Routes>
               <Route path="/" element={<HeroSection />} />
               <Route path="/alloffers" element={<AllOffers />} />
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/myactions" element={<MyActions />} />
               <Route path="/myoffers" element={<MyOffers />} />
               <Route path="/createoffer" element={<CreateOfferForm />} />
+              <Route path="/myactions" element={<MyActions />} />
+              <Route path="/todolist" element={<ToDoList />} />
             </Routes>
           </Layout>
-        </Router>
-      </AuthProvider>
+        </AuthProvider>
+      </Router>
     </div>
   );
 };

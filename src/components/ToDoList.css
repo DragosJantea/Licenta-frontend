@@ -1,0 +1,28 @@
+.to-do-list {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.to-do-list h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.to-do-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.to-do-list ul li {
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.to-do-list ul li label {
+  cursor: pointer;
+}

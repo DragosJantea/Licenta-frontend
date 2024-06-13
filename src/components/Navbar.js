@@ -35,6 +35,11 @@ const Navbar = () => {
               <Link to="/createoffer">Create Offer</Link>
             </li>
           )}
+          {role === "client" && (
+            <li>
+              <Link to="/todolist">TO-DO List</Link>
+            </li>
+          )}
           <li>
             <Link to="/myactions">My Actions</Link>
           </li>

@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
+import { loadStripe } from "@stripe/stripe-js";
 import "./MyActions.css";
+
+// Initialize Stripe with your publishable key
+const stripePromise = loadStripe(
+  "pk_test_51PQ5nkRq2yhibxgbjakjuwi9PXHiIturHNtSrRn1EM0D014KBB62MmanQagvhzCeRqMt8iH3qR7DIFxqM5s9KCGq008KnvnFAa"
+);
 
 const MyActions = () => {
   const { auth, role } = useAuth();
@@ -90,9 +96,12 @@ const MyActions = () => {
       if (response.ok) {
         const data = await response.json();
         console.log(`Offer request ${status.toLowerCase()} successfully`, data);
+
         setData((prevData) =>
           prevData.map((item) =>
-            item.offerRequestId === data.offerRequestId ? data : item
+            item.offerRequestId === data.offerRequestId
+              ? { ...item, offerRequestStatus: status }
+              : item
           )
         );
       } else {
@@ -100,6 +109,26 @@ const MyActions = () => {
       }
     } catch (error) {
       console.error("Error:", error);
+    }
+  };
+
+  const handleMakePayment = async (offerRequestId) => {
+    // Simulate a request to create a payment session (replace with your backend call if needed)
+    const stripe = await stripePromise;
+    const { error } = await stripe.redirectToCheckout({
+      lineItems: [
+        {
+          price: "price_1PQ6KxRq2yhibxgbx2vJKVag",
+          quantity: 1,
+        },
+      ],
+      mode: "payment",
+      successUrl: window.location.origin,
+      cancelUrl: window.location.origin,
+    });
+
+    if (error) {
+      console.error("Stripe error:", error);
     }
   };
 
@@ -115,6 +144,14 @@ const MyActions = () => {
                 <div>Date: {request.offerRequestDate}</div>
                 <div>Status: {request.offerRequestStatus}</div>
                 <div>Offer ID: {request.offerId}</div>
+                {request.offerRequestStatus === "ACCEPTED" && (
+                  <button
+                    className="make-payment-button"
+                    onClick={() => handleMakePayment(request.offerRequestId)}
+                  >
+                    Make Payment
+                  </button>
+                )}
               </li>
             ))}
           </ul>

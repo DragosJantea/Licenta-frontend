@@ -12,6 +12,15 @@
   margin-bottom: 1rem;
 }
 
+.filter {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.filter label {
+  margin-right: 0.5rem;
+}
+
 .offer-container {
   display: flex;
   flex-direction: column;
