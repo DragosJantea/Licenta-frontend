@@ -24,6 +24,7 @@ const MyOffers = () => {
         if (response.ok) {
           const data = await response.json();
           setOffers(data.offers);
+          console.log("Offers fetched successfully", data.offers);
         } else {
           console.error("Failed to fetch offers");
         }
