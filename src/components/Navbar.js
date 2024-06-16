@@ -1,6 +1,8 @@
+// src/components/Navbar.js
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import Logo from "./Logo";
 import "./Navbar.css";
 
 const Navbar = () => {
@@ -17,9 +19,13 @@ const Navbar = () => {
 
   return (
     <header className="header">
-      <div className="logo"> {/* You can place your logo here */}</div>
+      <div className="logo-container">
+        <Link to="/">
+          <Logo />
+        </Link>
+      </div>
       <nav>
-        <ul>
+        <ul className="nav-links">
           {role === "client" && (
             <li>
               <Link to="/alloffers">All Offers</Link>
@@ -55,9 +61,6 @@ const Navbar = () => {
           </li>
         </ul>
       </nav>
-      <div className="contact-button">
-        <button>Contact Us</button>
-      </div>
     </header>
   );
 };

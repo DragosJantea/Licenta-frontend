@@ -11,3 +11,20 @@
   text-align: center;
   margin-bottom: 1rem;
 }
+
+.offer-container {
+  margin-bottom: 1.5rem;
+}
+
+.offer-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.offer-link h3 {
+  margin: 0;
+}
+
+.offer-link:hover {
+  color: pink;
+}

@@ -27,14 +27,6 @@ html,
   color: black;
 }
 
-.header .contact-button button {
-  background-color: green;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-}
-
 /* Hero section styles */
 .hero-section {
   display: flex;
@@ -51,7 +43,7 @@ html,
 }
 
 .hero-text h3 {
-  color: #d49d92;
+  color: #ffc0cb;
 }
 
 .hero-text h1 {

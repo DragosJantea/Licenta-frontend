@@ -2,6 +2,16 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Register.css";
 
+const vendorTypes = [
+  "VENUES",
+  "PHOTOGRAPHY",
+  "DJS",
+  "HAIR_AND_MAKEUP",
+  "CATERING",
+  "FLOWERS",
+  "VIDEOGRAPHY",
+];
+
 const Register = () => {
   const [form, setForm] = useState({
     firstName: "",
@@ -121,13 +131,18 @@ const Register = () => {
           </label>
         </div>
         {form.role === "vendor" && (
-          <input
-            type="text"
+          <select
             name="vendorType"
-            placeholder="Vendor Type (e.g., VENUES)"
             value={form.vendorType}
             onChange={handleChange}
-          />
+          >
+            <option value="">Select Vendor Type</option>
+            {vendorTypes.map((type) => (
+              <option key={type} value={type}>
+                {type}
+              </option>
+            ))}
+          </select>
         )}
         <button type="submit">Register</button>
       </form>

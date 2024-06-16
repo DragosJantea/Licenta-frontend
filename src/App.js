@@ -11,6 +11,7 @@ import MyActions from "./components/MyActions";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import ToDoList from "./components/ToDoList";
+import OfferDetails from "./components/OfferDetails";
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
               <Route path="/createoffer" element={<CreateOfferForm />} />
               <Route path="/myactions" element={<MyActions />} />
               <Route path="/todolist" element={<ToDoList />} />
+              <Route path="/offers/:id" element={<OfferDetails />} />
             </Routes>
           </Layout>
         </AuthProvider>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { useDropzone } from 'react-dropzone';
+import { useDropzone } from "react-dropzone";
 import "./CreateOfferForm.css";
 
 const CreateOfferForm = () => {
@@ -17,7 +17,7 @@ const CreateOfferForm = () => {
         name: "",
         startDate: "",
         endDate: "",
-        weekDay: "",
+        weekDay: "MONDAY", // Default to MONDAY
         startTime: "",
         endTime: "",
       },
@@ -48,7 +48,7 @@ const CreateOfferForm = () => {
           name: "",
           startDate: "",
           endDate: "",
-          weekDay: "",
+          weekDay: "MONDAY", // Default to MONDAY
           startTime: "",
           endTime: "",
         },
@@ -64,8 +64,8 @@ const CreateOfferForm = () => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append('image', image);
-    formData.append('offer', JSON.stringify(form));
+    formData.append("image", image);
+    formData.append("offer", JSON.stringify(form));
 
     try {
       const response = await fetch("http://localhost:8080/vendors/me/offers", {
@@ -89,7 +89,7 @@ const CreateOfferForm = () => {
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: handleDrop,
-    accept: 'image/*',
+    accept: "image/*",
   });
 
   return (
@@ -138,31 +138,39 @@ const CreateOfferForm = () => {
               value={schedule.endDate}
               onChange={(e) => handleScheduleChange(index, e)}
             />
-            <input
-              type="text"
-              name="weekDay"
-              placeholder="Week Day"
-              value={schedule.weekDay}
-              onChange={(e) => handleScheduleChange(index, e)}
-            />
-            <input
-              type="time"
-              name="startTime"
-              value={schedule.startTime}
-              onChange={(e) => handleScheduleChange(index, e)}
-            />
-            <input
-              type="time"
-              name="endTime"
-              value={schedule.endTime}
-              onChange={(e) => handleScheduleChange(index, e)}
-            />
+            <div className="schedule-time">
+              <select
+                name="weekDay"
+                value={schedule.weekDay}
+                onChange={(e) => handleScheduleChange(index, e)}
+              >
+                <option value="MONDAY">MONDAY</option>
+                <option value="TUESDAY">TUESDAY</option>
+                <option value="WEDNESDAY">WEDNESDAY</option>
+                <option value="THURSDAY">THURSDAY</option>
+                <option value="FRIDAY">FRIDAY</option>
+                <option value="SATURDAY">SATURDAY</option>
+                <option value="SUNDAY">SUNDAY</option>
+              </select>
+              <input
+                type="time"
+                name="startTime"
+                value={schedule.startTime}
+                onChange={(e) => handleScheduleChange(index, e)}
+              />
+              <input
+                type="time"
+                name="endTime"
+                value={schedule.endTime}
+                onChange={(e) => handleScheduleChange(index, e)}
+              />
+            </div>
           </div>
         ))}
         <button type="button" onClick={addSchedule}>
           Add Schedule
         </button>
-        <div {...getRootProps({ className: 'dropzone' })}>
+        <div {...getRootProps({ className: "dropzone" })}>
           <input {...getInputProps()} />
           {image ? (
             <p>{image.name}</p>

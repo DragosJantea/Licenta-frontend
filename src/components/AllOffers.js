@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Offer from "./Offer";
 import "./AllOffers.css";
@@ -131,13 +132,10 @@ const AllOffers = () => {
       {filteredOffers.length > 0 ? (
         filteredOffers.map((offer) => (
           <div key={offer.id} className="offer-container">
+            <Link to={`/offers/${offer.id}`} className="offer-link">
+              {offer.name}
+            </Link>
             <Offer offer={offer} />
-            <button
-              className="request-button"
-              onClick={() => handleRequest(offer.id)}
-            >
-              Request
-            </button>
           </div>
         ))
       ) : (

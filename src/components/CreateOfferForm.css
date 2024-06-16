@@ -18,7 +18,8 @@
 }
 
 .create-offer-form form input,
-.create-offer-form form textarea {
+.create-offer-form form textarea,
+.create-offer-form form select {
   margin-bottom: 0.5rem;
   padding: 0.5rem;
   border: 1px solid #ccc;
@@ -31,6 +32,11 @@
   margin-bottom: 0.5rem;
   border-radius: 3px;
   background-color: #f1f1f1;
+}
+
+.create-offer-form .schedule-time {
+  display: flex;
+  gap: 0.5rem;
 }
 
 .create-offer-form form button {

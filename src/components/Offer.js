@@ -1,22 +1,14 @@
 import React from "react";
 import "./Offer.css";
 
-const Offer = ({ offer }) => {
+const Offer = ({ offer, link }) => {
   return (
     <div className="offer">
-      <h3>{offer.name}</h3>
+      {link && <a href={link}>{offer.name}</a>}
       <p>{offer.description}</p>
-      <img src={offer.imageUrl} alt={offer.name} />
-      <h4>Schedules:</h4>
-      <ul>
-        {offer.schedules.map((schedule, index) => (
-          <li key={index}>
-            <strong>{schedule.name}:</strong> {schedule.startDate} to{" "}
-            {schedule.endDate}, {schedule.weekDay}, {schedule.startTime} to{" "}
-            {schedule.endTime}
-          </li>
-        ))}
-      </ul>
+      {offer.imageUrl && (
+        <img src={offer.imageUrl} alt={offer.name} className="offer-image" />
+      )}
     </div>
   );
 };
