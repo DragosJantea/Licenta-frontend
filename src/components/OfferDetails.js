@@ -13,6 +13,7 @@ const OfferDetails = () => {
   const [reviewContent, setReviewContent] = useState("");
   const [reviewRating, setReviewRating] = useState(5);
   const [reviews, setReviews] = useState([]);
+  const [overallRating, setOverallRating] = useState(null);
 
   useEffect(() => {
     const fetchOffer = async () => {
@@ -41,6 +42,25 @@ const OfferDetails = () => {
       fetchOffer();
     }
   }, [auth, id]);
+
+  useEffect(() => {
+    if (offer) {
+      fetchReviews();
+    }
+  }, [offer]);
+
+  useEffect(() => {
+    if (reviews.length > 0) {
+      const totalRating = reviews.reduce(
+        (sum, review) => sum + review.rating,
+        0
+      );
+      const avgRating = totalRating / reviews.length;
+      setOverallRating(avgRating.toFixed(2));
+    } else {
+      setOverallRating(null);
+    }
+  }, [reviews]);
 
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
@@ -144,6 +164,10 @@ const OfferDetails = () => {
       <h3>Location:</h3>
       <Map lat={offer.lat} lng={offer.lng} />
       <h3>Price: ${offer.price}</h3>
+      {overallRating !== null && <h3>Overall Rating: {overallRating}</h3>}
+      {offer.maxAttendees !== -1 && (
+        <h3>Max Attendees: {offer.maxAttendees}</h3>
+      )}
       <h3>Schedules:</h3>
       {offer.schedules.length > 0 ? (
         <ul>

@@ -1,24 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useDropzone } from "react-dropzone";
 import "./CreateOfferForm.css";
 
+const vendorTypesWithMaxAttendees = ["VENUES"];
+
 const CreateOfferForm = () => {
   const { auth } = useAuth();
   const navigate = useNavigate();
 
+  const [vendorType, setVendorType] = useState("");
   const [form, setForm] = useState({
     name: "",
     description: "",
     maxAttendees: "",
-    price: "", // Add price to the form state
+    price: "",
+    address: "",
     schedules: [
       {
         name: "",
         startDate: "",
         endDate: "",
-        weekDay: "MONDAY", // Default to MONDAY
+        weekDay: "MONDAY",
         startTime: "",
         endTime: "",
       },
@@ -26,6 +30,33 @@ const CreateOfferForm = () => {
   });
 
   const [image, setImage] = useState(null);
+
+  useEffect(() => {
+    const fetchVendorType = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/vendors/me", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${auth}`,
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setVendorType(data.vendorType);
+        } else {
+          console.error("Failed to fetch vendor type");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    if (auth) {
+      fetchVendorType();
+    }
+  }, [auth]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -49,7 +80,7 @@ const CreateOfferForm = () => {
           name: "",
           startDate: "",
           endDate: "",
-          weekDay: "MONDAY", // Default to MONDAY
+          weekDay: "MONDAY",
           startTime: "",
           endTime: "",
         },
@@ -63,6 +94,10 @@ const CreateOfferForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!vendorTypesWithMaxAttendees.includes(vendorType)) {
+      form.maxAttendees = -1;
+    }
 
     const formData = new FormData();
     formData.append("image", image);
@@ -79,7 +114,7 @@ const CreateOfferForm = () => {
 
       if (response.ok) {
         console.log("Offer created successfully");
-        navigate("/myoffers"); // Redirect to My Offers page
+        navigate("/myoffers");
       } else {
         console.error("Failed to create offer");
       }
@@ -110,18 +145,27 @@ const CreateOfferForm = () => {
           value={form.description}
           onChange={handleChange}
         ></textarea>
-        <input
-          type="number"
-          name="maxAttendees"
-          placeholder="Max Attendees"
-          value={form.maxAttendees}
-          onChange={handleChange}
-        />
+        {vendorTypesWithMaxAttendees.includes(vendorType) && (
+          <input
+            type="number"
+            name="maxAttendees"
+            placeholder="Max Attendees"
+            value={form.maxAttendees}
+            onChange={handleChange}
+          />
+        )}
         <input
           type="number"
           name="price"
           placeholder="Price"
           value={form.price}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="address"
+          placeholder="Address"
+          value={form.address}
           onChange={handleChange}
         />
         <h3>Schedules</h3>

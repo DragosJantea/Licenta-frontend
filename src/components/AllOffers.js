@@ -19,6 +19,10 @@ const AllOffers = () => {
   const [offers, setOffers] = useState([]);
   const [vendors, setVendors] = useState([]);
   const [selectedVendorType, setSelectedVendorType] = useState("");
+  const [priceSortOrder, setPriceSortOrder] = useState(""); // State for price sorting order
+  const [reviewSortOrder, setReviewSortOrder] = useState(""); // State for review sorting order
+  const [ratingSortOrder, setRatingSortOrder] = useState(""); // State for overall rating sorting order
+  const [attendeesSortOrder, setAttendeesSortOrder] = useState(""); // State for max attendees sorting order
 
   useEffect(() => {
     const fetchOffers = async () => {
@@ -33,8 +37,35 @@ const AllOffers = () => {
 
         if (response.ok) {
           const data = await response.json();
-          setOffers(data.offers);
-          console.log("Offers fetched successfully", data.offers);
+          const offersWithReviews = await Promise.all(
+            data.offers.map(async (offer) => {
+              const reviewsResponse = await fetch(
+                `http://localhost:8080/offers/${offer.id}/reviews`,
+                {
+                  method: "GET",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${auth}`,
+                  },
+                }
+              );
+              if (reviewsResponse.ok) {
+                const reviewsData = await reviewsResponse.json();
+                const reviewCount = reviewsData.length;
+                const overallRating =
+                  reviewCount > 0
+                    ? reviewsData.reduce(
+                        (sum, review) => sum + review.rating,
+                        0
+                      ) / reviewCount
+                    : 0;
+                return { ...offer, reviewCount, overallRating };
+              }
+              return { ...offer, reviewCount: 0, overallRating: 0 };
+            })
+          );
+          setOffers(offersWithReviews);
+          console.log("Offers fetched successfully", offersWithReviews);
         } else {
           console.error("Failed to fetch offers");
         }
@@ -100,6 +131,22 @@ const AllOffers = () => {
     setSelectedVendorType(e.target.value);
   };
 
+  const handlePriceSortChange = (e) => {
+    setPriceSortOrder(e.target.value);
+  };
+
+  const handleReviewSortChange = (e) => {
+    setReviewSortOrder(e.target.value);
+  };
+
+  const handleRatingSortChange = (e) => {
+    setRatingSortOrder(e.target.value);
+  };
+
+  const handleAttendeesSortChange = (e) => {
+    setAttendeesSortOrder(e.target.value);
+  };
+
   const getVendorType = (vendorId) => {
     const vendor = vendors.find((vendor) => vendor.id === vendorId);
     return vendor ? vendor.vendorType : "";
@@ -110,6 +157,40 @@ const AllOffers = () => {
         (offer) => getVendorType(offer.vendorId) === selectedVendorType
       )
     : offers;
+
+  const sortedOffers = [...filteredOffers]
+    .sort((a, b) => {
+      if (priceSortOrder === "price-asc") {
+        return a.price - b.price;
+      } else if (priceSortOrder === "price-desc") {
+        return b.price - a.price;
+      }
+      return 0; // Default case
+    })
+    .sort((a, b) => {
+      if (reviewSortOrder === "reviews-asc") {
+        return a.reviewCount - b.reviewCount;
+      } else if (reviewSortOrder === "reviews-desc") {
+        return b.reviewCount - a.reviewCount;
+      }
+      return 0; // Default case
+    })
+    .sort((a, b) => {
+      if (ratingSortOrder === "rating-asc") {
+        return a.overallRating - b.overallRating;
+      } else if (ratingSortOrder === "rating-desc") {
+        return b.overallRating - a.overallRating;
+      }
+      return 0; // Default case
+    })
+    .sort((a, b) => {
+      if (attendeesSortOrder === "attendees-asc") {
+        return a.maxAttendees - b.maxAttendees;
+      } else if (attendeesSortOrder === "attendees-desc") {
+        return b.maxAttendees - a.maxAttendees;
+      }
+      return 0; // Default case
+    });
 
   return (
     <div className="all-offers">
@@ -128,9 +209,53 @@ const AllOffers = () => {
             </option>
           ))}
         </select>
+        <label htmlFor="priceSortOrder">Sort by Price: </label>
+        <select
+          id="priceSortOrder"
+          value={priceSortOrder}
+          onChange={handlePriceSortChange}
+        >
+          <option value="">None</option>
+          <option value="price-asc">Ascending</option>
+          <option value="price-desc">Descending</option>
+        </select>
+        <label htmlFor="reviewSortOrder">Sort by Number of Reviews: </label>
+        <select
+          id="reviewSortOrder"
+          value={reviewSortOrder}
+          onChange={handleReviewSortChange}
+        >
+          <option value="">None</option>
+          <option value="reviews-asc">Ascending</option>
+          <option value="reviews-desc">Descending</option>
+        </select>
+        <label htmlFor="ratingSortOrder">Sort by Overall Rating: </label>
+        <select
+          id="ratingSortOrder"
+          value={ratingSortOrder}
+          onChange={handleRatingSortChange}
+        >
+          <option value="">None</option>
+          <option value="rating-asc">Ascending</option>
+          <option value="rating-desc">Descending</option>
+        </select>
+        {selectedVendorType === "VENUES" && (
+          <div>
+            <label htmlFor="attendeesSortOrder">Sort by Max Attendees: </label>
+            <select
+              id="attendeesSortOrder"
+              value={attendeesSortOrder}
+              onChange={handleAttendeesSortChange}
+            >
+              <option value="">None</option>
+              <option value="attendees-asc">Ascending</option>
+              <option value="attendees-desc">Descending</option>
+            </select>
+          </div>
+        )}
       </div>
-      {filteredOffers.length > 0 ? (
-        filteredOffers.map((offer) => (
+      {sortedOffers.length > 0 ? (
+        sortedOffers.map((offer) => (
           <div key={offer.id} className="offer-container">
             <Link to={`/offers/${offer.id}`} className="offer-link">
               {offer.name}
