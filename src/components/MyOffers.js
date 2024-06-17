@@ -41,7 +41,7 @@ const MyOffers = () => {
 
   return (
     <div className="my-offers">
-      <h2>My Offers</h2>
+      <h2>Offers</h2>
       {offers.length > 0 ? (
         offers.map((offer) => (
           <div key={offer.id} className="offer-container">

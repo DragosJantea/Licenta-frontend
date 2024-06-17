@@ -134,7 +134,7 @@ const MyActions = () => {
 
   return (
     <div className="my-actions">
-      <h2>My Actions</h2>
+      <h2>Requests</h2>
       {role === "client" ? (
         data.length > 0 ? (
           <ul>
@@ -144,6 +144,8 @@ const MyActions = () => {
                 <div>Date: {request.offerRequestDate}</div>
                 <div>Status: {request.offerRequestStatus}</div>
                 <div>Offer ID: {request.offerId}</div>
+                <div>Price: ${request.offerPrice}</div>{" "}
+                {/* Display the offer price */}
                 {request.offerRequestStatus === "ACCEPTED" && (
                   <button
                     className="make-payment-button"

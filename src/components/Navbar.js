@@ -12,6 +12,7 @@ const Navbar = () => {
   const handleAuthAction = () => {
     if (auth) {
       logout();
+      navigate("/");
     } else {
       navigate("/login");
     }
@@ -33,7 +34,7 @@ const Navbar = () => {
           )}
           {role === "vendor" && (
             <li>
-              <Link to="/myoffers">My Offers</Link>
+              <Link to="/myoffers">Offers</Link>
             </li>
           )}
           {role === "vendor" && (
@@ -43,11 +44,11 @@ const Navbar = () => {
           )}
           {role === "client" && (
             <li>
-              <Link to="/todolist">TO-DO List</Link>
+              <Link to="/todolist">Checklist</Link>
             </li>
           )}
           <li>
-            <Link to="/myactions">My Actions</Link>
+            <Link to="/myactions">Requests</Link>
           </li>
           {!auth && (
             <li>

@@ -12,6 +12,7 @@ const CreateOfferForm = () => {
     name: "",
     description: "",
     maxAttendees: "",
+    price: "", // Add price to the form state
     schedules: [
       {
         name: "",
@@ -114,6 +115,13 @@ const CreateOfferForm = () => {
           name="maxAttendees"
           placeholder="Max Attendees"
           value={form.maxAttendees}
+          onChange={handleChange}
+        />
+        <input
+          type="number"
+          name="price"
+          placeholder="Price"
+          value={form.price}
           onChange={handleChange}
         />
         <h3>Schedules</h3>

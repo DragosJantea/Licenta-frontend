@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import Map from "./Map";
 import "./OfferDetails.css";
 
 const OfferDetails = () => {
@@ -140,6 +141,9 @@ const OfferDetails = () => {
       {offer.imageUrl && (
         <img src={offer.imageUrl} alt={offer.name} className="offer-image" />
       )}
+      <h3>Location:</h3>
+      <Map lat={offer.lat} lng={offer.lng} />
+      <h3>Price: ${offer.price}</h3>
       <h3>Schedules:</h3>
       {offer.schedules.length > 0 ? (
         <ul>
