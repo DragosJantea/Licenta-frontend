@@ -19,13 +19,15 @@ const AllOffers = () => {
   const [offers, setOffers] = useState([]);
   const [vendors, setVendors] = useState([]);
   const [selectedVendorType, setSelectedVendorType] = useState("");
-  const [priceSortOrder, setPriceSortOrder] = useState(""); // State for price sorting order
-  const [reviewSortOrder, setReviewSortOrder] = useState(""); // State for review sorting order
-  const [ratingSortOrder, setRatingSortOrder] = useState(""); // State for overall rating sorting order
-  const [attendeesSortOrder, setAttendeesSortOrder] = useState(""); // State for max attendees sorting order
-  const [proximitySortOrder, setProximitySortOrder] = useState(""); // State for proximity sorting order
-  const [location, setLocation] = useState(""); // State for location input
-  const [userCoordinates, setUserCoordinates] = useState(null); // State for user coordinates
+  const [priceSortOrder, setPriceSortOrder] = useState("");
+  const [reviewSortOrder, setReviewSortOrder] = useState("");
+  const [ratingSortOrder, setRatingSortOrder] = useState("");
+  const [attendeesSortOrder, setAttendeesSortOrder] = useState("");
+  const [proximitySortOrder, setProximitySortOrder] = useState("");
+  const [location, setLocation] = useState("");
+  const [userCoordinates, setUserCoordinates] = useState(null);
+  const [startDate, setStartDate] = useState(""); // State for start date filter
+  const [endDate, setEndDate] = useState(""); // State for end date filter
 
   const locationHook = useLocation();
   const navigate = useNavigate();
@@ -117,6 +119,8 @@ const AllOffers = () => {
     setAttendeesSortOrder(params.get("attendeesSortOrder") || "");
     setProximitySortOrder(params.get("proximitySortOrder") || "");
     setLocation(params.get("location") || "");
+    setStartDate(params.get("startDate") || ""); // Retrieve start date from query params
+    setEndDate(params.get("endDate") || ""); // Retrieve end date from query params
   }, [locationHook.search]);
 
   const updateQueryParams = (params) => {
@@ -210,16 +214,43 @@ const AllOffers = () => {
     }
   };
 
+  const handleStartDateChange = (e) => {
+    setStartDate(e.target.value);
+    updateQueryParams({ startDate: e.target.value });
+  };
+
+  const handleEndDateChange = (e) => {
+    setEndDate(e.target.value);
+    updateQueryParams({ endDate: e.target.value });
+  };
+
   const getVendorType = (vendorId) => {
     const vendor = vendors.find((vendor) => vendor.id === vendorId);
     return vendor ? vendor.vendorType : "";
   };
 
-  const filteredOffers = selectedVendorType
-    ? offers.filter(
-        (offer) => getVendorType(offer.vendorId) === selectedVendorType
-      )
-    : offers;
+  const filteredOffers = offers.filter((offer) => {
+    if (
+      selectedVendorType &&
+      getVendorType(offer.vendorId) !== selectedVendorType
+    ) {
+      return false;
+    }
+    if (startDate && endDate) {
+      const offerDates = offer.availableDates.map((date) => new Date(date));
+      console.log(offerDates);
+      const start = new Date(startDate);
+      console.log(start);
+      const end = new Date(endDate);
+      console.log(end);
+      const hasDateInRange = offerDates.some(
+        (date) => date >= start && date <= end
+      );
+      console.log(hasDateInRange);
+      return hasDateInRange;
+    }
+    return true;
+  });
 
   const haversineDistance = (coords1, coords2) => {
     const toRad = (x) => (x * Math.PI) / 180;
@@ -370,6 +401,20 @@ const AllOffers = () => {
           <option value="proximity-asc">Ascending</option>
           <option value="proximity-desc">Descending</option>
         </select>
+        <label htmlFor="startDate">Start Date: </label>
+        <input
+          type="date"
+          id="startDate"
+          value={startDate}
+          onChange={handleStartDateChange}
+        />
+        <label htmlFor="endDate">End Date: </label>
+        <input
+          type="date"
+          id="endDate"
+          value={endDate}
+          onChange={handleEndDateChange}
+        />
       </div>
       {sortedOffers.length > 0 ? (
         sortedOffers.map((offer) => (

@@ -127,12 +127,19 @@ const OfferDetails = () => {
   };
 
   const handleRequest = async () => {
-    console.log(requestedDate);
+    if (!requestedDate) {
+      alert("Please select a date.");
+      return;
+    }
+
+    // Format the date correctly
     const [year, month, day] = requestedDate.split(",").map(Number);
-    const formattedDate = new Date(year, month - 1, day)
+    const formattedDate = new Date(year, month - 1, day + 1)
       .toISOString()
-      .split("T")[0]; // This will give you '2024-07-05'
+      .split("T")[0];
+
     console.log(formattedDate);
+
     try {
       const response = await fetch(
         "http://localhost:8080/clients/me/offerRequest",
@@ -142,7 +149,7 @@ const OfferDetails = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${auth}`,
           },
-          body: JSON.stringify({ offerId: id, requestedDate: formattedDate }), // Include requestedDate
+          body: JSON.stringify({ offerId: id, requestedDate: formattedDate }), // Use formattedDate here
         }
       );
 
@@ -181,11 +188,16 @@ const OfferDetails = () => {
         onChange={(e) => setRequestedDate(e.target.value)}
       >
         <option value="">Select a date</option>
-        {offer.availableDates.map((date) => (
-          <option key={date} value={date}>
-            {new Date(date).toISOString().split("T")[0]}
-          </option>
-        ))}
+        {offer.availableDates.map((date) => {
+          const incrementedDate = new Date(date);
+          incrementedDate.setDate(incrementedDate.getDate() + 1);
+          const displayDate = incrementedDate.toISOString().split("T")[0];
+          return (
+            <option key={date} value={date}>
+              {displayDate}
+            </option>
+          );
+        })}
       </select>
       <div className="button-group">
         {role === "client" && (
