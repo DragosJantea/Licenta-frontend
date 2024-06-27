@@ -12,6 +12,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import ToDoList from "./components/ToDoList";
 import OfferDetails from "./components/OfferDetails";
+import ChatBox from "./components/ChatBox";
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
               <Route path="/offers/:id" element={<OfferDetails />} />
             </Routes>
           </Layout>
+          <ChatBox />
         </AuthProvider>
       </Router>
     </div>

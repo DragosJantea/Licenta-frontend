@@ -14,6 +14,7 @@ const OfferDetails = () => {
   const [reviewRating, setReviewRating] = useState(5);
   const [reviews, setReviews] = useState([]);
   const [overallRating, setOverallRating] = useState(null);
+  const [requestedDate, setRequestedDate] = useState(""); // Add state for requestedDate
 
   useEffect(() => {
     const fetchOffer = async () => {
@@ -126,6 +127,12 @@ const OfferDetails = () => {
   };
 
   const handleRequest = async () => {
+    console.log(requestedDate);
+    const [year, month, day] = requestedDate.split(",").map(Number);
+    const formattedDate = new Date(year, month - 1, day)
+      .toISOString()
+      .split("T")[0]; // This will give you '2024-07-05'
+    console.log(formattedDate);
     try {
       const response = await fetch(
         "http://localhost:8080/clients/me/offerRequest",
@@ -135,7 +142,7 @@ const OfferDetails = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${auth}`,
           },
-          body: JSON.stringify({ offerId: id }),
+          body: JSON.stringify({ offerId: id, requestedDate: formattedDate }), // Include requestedDate
         }
       );
 
@@ -168,20 +175,18 @@ const OfferDetails = () => {
       {offer.maxAttendees !== -1 && (
         <h3>Max Attendees: {offer.maxAttendees}</h3>
       )}
-      <h3>Schedules:</h3>
-      {offer.schedules.length > 0 ? (
-        <ul>
-          {offer.schedules.map((schedule, index) => (
-            <li key={index}>
-              <strong>{schedule.name}:</strong> {schedule.startDate} to{" "}
-              {schedule.endDate}, {schedule.weekDay}, {schedule.startTime} to{" "}
-              {schedule.endTime}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No schedules found.</p>
-      )}
+      <h3>Available Dates:</h3>
+      <select
+        value={requestedDate}
+        onChange={(e) => setRequestedDate(e.target.value)}
+      >
+        <option value="">Select a date</option>
+        {offer.availableDates.map((date) => (
+          <option key={date} value={date}>
+            {new Date(date).toISOString().split("T")[0]}
+          </option>
+        ))}
+      </select>
       <div className="button-group">
         {role === "client" && (
           <button className="button" onClick={handleRequest}>

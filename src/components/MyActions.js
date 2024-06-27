@@ -141,7 +141,10 @@ const MyActions = () => {
             {data.map((request) => (
               <li key={request.offerRequestId}>
                 <div>Offer Request ID: {request.offerRequestId}</div>
-                <div>Date: {request.offerRequestDate}</div>
+                <div>
+                  Date:{" "}
+                  {new Date(request.requestedDate).toLocaleDateString("en-CA")}
+                </div>
                 <div>Status: {request.offerRequestStatus}</div>
                 <div>Offer ID: {request.offerId}</div>
                 <div>Price: ${request.offerPrice}</div>{" "}
@@ -165,16 +168,6 @@ const MyActions = () => {
           <div key={offer.id} className="offer-container">
             <h3>{offer.name}</h3>
             <p>{offer.description}</p>
-            <h4>Schedules:</h4>
-            <ul>
-              {offer.schedules.map((schedule, index) => (
-                <li key={index}>
-                  <strong>{schedule.name}:</strong> {schedule.startDate} to{" "}
-                  {schedule.endDate}, {schedule.weekDay}, {schedule.startTime}{" "}
-                  to {schedule.endTime}
-                </li>
-              ))}
-            </ul>
             <h4>Offer Requests:</h4>
             <OfferRequests
               offerId={offer.id}

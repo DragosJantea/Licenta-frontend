@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./Register.css";
 
 const vendorTypes = [
@@ -20,6 +20,7 @@ const Register = () => {
     password: "",
     role: "client", // Default to client
     vendorType: "", // Vendor type, only used if role is vendor
+    iban: "", // IBAN, only used if role is vendor
   });
 
   const navigate = useNavigate();
@@ -53,6 +54,7 @@ const Register = () => {
             email: form.email,
             password: form.password,
             vendorType: form.vendorType,
+            // iban: form.iban,
           };
 
     try {
@@ -131,19 +133,31 @@ const Register = () => {
           </label>
         </div>
         {form.role === "vendor" && (
-          <select
-            name="vendorType"
-            value={form.vendorType}
-            onChange={handleChange}
-          >
-            <option value="">Select Vendor Type</option>
-            {vendorTypes.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
+          <>
+            <select
+              name="vendorType"
+              value={form.vendorType}
+              onChange={handleChange}
+            >
+              <option value="">Select Vendor Type</option>
+              {vendorTypes.map((type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              ))}
+            </select>
+            <input
+              type="text"
+              name="iban"
+              placeholder="IBAN"
+              value={form.iban}
+              onChange={handleChange}
+            />
+          </>
         )}
+        <p>
+          Already have an account? <Link to="/login">Login</Link>
+        </p>
         <button type="submit">Register</button>
       </form>
     </div>

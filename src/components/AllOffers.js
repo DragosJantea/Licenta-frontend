@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Offer from "./Offer";
 import "./AllOffers.css";
@@ -23,6 +23,12 @@ const AllOffers = () => {
   const [reviewSortOrder, setReviewSortOrder] = useState(""); // State for review sorting order
   const [ratingSortOrder, setRatingSortOrder] = useState(""); // State for overall rating sorting order
   const [attendeesSortOrder, setAttendeesSortOrder] = useState(""); // State for max attendees sorting order
+  const [proximitySortOrder, setProximitySortOrder] = useState(""); // State for proximity sorting order
+  const [location, setLocation] = useState(""); // State for location input
+  const [userCoordinates, setUserCoordinates] = useState(null); // State for user coordinates
+
+  const locationHook = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchOffers = async () => {
@@ -102,6 +108,29 @@ const AllOffers = () => {
     }
   }, [auth]);
 
+  useEffect(() => {
+    const params = new URLSearchParams(locationHook.search);
+    setSelectedVendorType(params.get("vendorType") || "");
+    setPriceSortOrder(params.get("priceSortOrder") || "");
+    setReviewSortOrder(params.get("reviewSortOrder") || "");
+    setRatingSortOrder(params.get("ratingSortOrder") || "");
+    setAttendeesSortOrder(params.get("attendeesSortOrder") || "");
+    setProximitySortOrder(params.get("proximitySortOrder") || "");
+    setLocation(params.get("location") || "");
+  }, [locationHook.search]);
+
+  const updateQueryParams = (params) => {
+    const queryParams = new URLSearchParams(locationHook.search);
+    Object.keys(params).forEach((key) => {
+      if (params[key]) {
+        queryParams.set(key, params[key]);
+      } else {
+        queryParams.delete(key);
+      }
+    });
+    navigate({ search: queryParams.toString() });
+  };
+
   const handleRequest = async (offerId) => {
     try {
       const response = await fetch(
@@ -129,22 +158,56 @@ const AllOffers = () => {
 
   const handleFilterChange = (e) => {
     setSelectedVendorType(e.target.value);
+    updateQueryParams({ vendorType: e.target.value });
   };
 
   const handlePriceSortChange = (e) => {
     setPriceSortOrder(e.target.value);
+    updateQueryParams({ priceSortOrder: e.target.value });
   };
 
   const handleReviewSortChange = (e) => {
     setReviewSortOrder(e.target.value);
+    updateQueryParams({ reviewSortOrder: e.target.value });
   };
 
   const handleRatingSortChange = (e) => {
     setRatingSortOrder(e.target.value);
+    updateQueryParams({ ratingSortOrder: e.target.value });
   };
 
   const handleAttendeesSortChange = (e) => {
     setAttendeesSortOrder(e.target.value);
+    updateQueryParams({ attendeesSortOrder: e.target.value });
+  };
+
+  const handleProximitySortChange = (e) => {
+    setProximitySortOrder(e.target.value);
+    updateQueryParams({ proximitySortOrder: e.target.value });
+  };
+
+  const handleLocationChange = (e) => {
+    setLocation(e.target.value);
+  };
+
+  const handleLocationSubmit = async () => {
+    try {
+      const response = await fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+          location
+        )}&key=AIzaSyC4mEb02DszcVnKttfu5YfBijoNxBmH4Zk`
+      );
+      const data = await response.json();
+      if (data.results.length > 0) {
+        const { lat, lng } = data.results[0].geometry.location;
+        setUserCoordinates({ lat, lng });
+        updateQueryParams({ location });
+      } else {
+        throw new Error("Location not found");
+      }
+    } catch (error) {
+      console.error("Error geocoding location:", error);
+    }
   };
 
   const getVendorType = (vendorId) => {
@@ -157,6 +220,23 @@ const AllOffers = () => {
         (offer) => getVendorType(offer.vendorId) === selectedVendorType
       )
     : offers;
+
+  const haversineDistance = (coords1, coords2) => {
+    const toRad = (x) => (x * Math.PI) / 180;
+
+    const R = 6371; // Earth radius in kilometers
+    const dLat = toRad(coords2.lat - coords1.lat);
+    const dLon = toRad(coords2.lng - coords1.lng);
+    const lat1 = toRad(coords1.lat);
+    const lat2 = toRad(coords2.lat);
+
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    return R * c;
+  };
 
   const sortedOffers = [...filteredOffers]
     .sort((a, b) => {
@@ -188,6 +268,24 @@ const AllOffers = () => {
         return a.maxAttendees - b.maxAttendees;
       } else if (attendeesSortOrder === "attendees-desc") {
         return b.maxAttendees - a.maxAttendees;
+      }
+      return 0; // Default case
+    })
+    .sort((a, b) => {
+      if (proximitySortOrder && userCoordinates) {
+        const distanceA = haversineDistance(userCoordinates, {
+          lat: a.lat,
+          lng: a.lng,
+        });
+        const distanceB = haversineDistance(userCoordinates, {
+          lat: b.lat,
+          lng: b.lng,
+        });
+        if (proximitySortOrder === "proximity-asc") {
+          return distanceA - distanceB;
+        } else if (proximitySortOrder === "proximity-desc") {
+          return distanceB - distanceA;
+        }
       }
       return 0; // Default case
     });
@@ -253,6 +351,25 @@ const AllOffers = () => {
             </select>
           </div>
         )}
+        <label htmlFor="location">Enter Location: </label>
+        <input
+          type="text"
+          id="location"
+          value={location}
+          onChange={handleLocationChange}
+          placeholder="Enter address"
+        />
+        <button onClick={handleLocationSubmit}>Geocode Location</button>
+        <label htmlFor="proximitySortOrder">Sort by Proximity: </label>
+        <select
+          id="proximitySortOrder"
+          value={proximitySortOrder}
+          onChange={handleProximitySortChange}
+        >
+          <option value="">None</option>
+          <option value="proximity-asc">Ascending</option>
+          <option value="proximity-desc">Descending</option>
+        </select>
       </div>
       {sortedOffers.length > 0 ? (
         sortedOffers.map((offer) => (

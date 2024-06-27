@@ -49,7 +49,7 @@ const ToDoList = () => {
                 checked={checkedItems.has(type)}
                 onChange={() => handleCheckboxChange(type)}
               />
-              {type}
+              <span>{type}</span>
             </label>
           </li>
         ))}

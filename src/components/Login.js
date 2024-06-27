@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "./Login.css";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [form, setForm] = useState({
@@ -94,6 +95,9 @@ const Login = () => {
             Vendor
           </label>
         </div>
+        <p>
+          Don't have an account? <Link to="/register">Register</Link>
+        </p>
         <button type="submit">Login</button>
       </form>
     </div>

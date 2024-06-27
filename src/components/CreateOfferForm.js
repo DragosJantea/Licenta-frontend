@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useDropzone } from "react-dropzone";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import "./CreateOfferForm.css";
 
 const vendorTypesWithMaxAttendees = ["VENUES"];
@@ -17,19 +19,10 @@ const CreateOfferForm = () => {
     maxAttendees: "",
     price: "",
     address: "",
-    schedules: [
-      {
-        name: "",
-        startDate: "",
-        endDate: "",
-        weekDay: "MONDAY",
-        startTime: "",
-        endTime: "",
-      },
-    ],
+    availableDates: [], // New field for available dates
   });
-
   const [image, setImage] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null); // State for the date picker
 
   useEffect(() => {
     const fetchVendorType = async () => {
@@ -61,31 +54,6 @@ const CreateOfferForm = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
-  };
-
-  const handleScheduleChange = (index, e) => {
-    const { name, value } = e.target;
-    const newSchedules = form.schedules.map((schedule, i) =>
-      i === index ? { ...schedule, [name]: value } : schedule
-    );
-    setForm({ ...form, schedules: newSchedules });
-  };
-
-  const addSchedule = () => {
-    setForm({
-      ...form,
-      schedules: [
-        ...form.schedules,
-        {
-          name: "",
-          startDate: "",
-          endDate: "",
-          weekDay: "MONDAY",
-          startTime: "",
-          endTime: "",
-        },
-      ],
-    });
   };
 
   const handleDrop = (acceptedFiles) => {
@@ -120,6 +88,16 @@ const CreateOfferForm = () => {
       }
     } catch (error) {
       console.error("Error:", error);
+    }
+  };
+
+  const addAvailableDate = () => {
+    if (selectedDate) {
+      setForm((prevForm) => ({
+        ...prevForm,
+        availableDates: [...prevForm.availableDates, selectedDate],
+      }));
+      setSelectedDate(null); // Clear the date picker
     }
   };
 
@@ -168,60 +146,6 @@ const CreateOfferForm = () => {
           value={form.address}
           onChange={handleChange}
         />
-        <h3>Schedules</h3>
-        {form.schedules.map((schedule, index) => (
-          <div key={index} className="schedule">
-            <input
-              type="text"
-              name="name"
-              placeholder="Schedule Name"
-              value={schedule.name}
-              onChange={(e) => handleScheduleChange(index, e)}
-            />
-            <input
-              type="date"
-              name="startDate"
-              value={schedule.startDate}
-              onChange={(e) => handleScheduleChange(index, e)}
-            />
-            <input
-              type="date"
-              name="endDate"
-              value={schedule.endDate}
-              onChange={(e) => handleScheduleChange(index, e)}
-            />
-            <div className="schedule-time">
-              <select
-                name="weekDay"
-                value={schedule.weekDay}
-                onChange={(e) => handleScheduleChange(index, e)}
-              >
-                <option value="MONDAY">MONDAY</option>
-                <option value="TUESDAY">TUESDAY</option>
-                <option value="WEDNESDAY">WEDNESDAY</option>
-                <option value="THURSDAY">THURSDAY</option>
-                <option value="FRIDAY">FRIDAY</option>
-                <option value="SATURDAY">SATURDAY</option>
-                <option value="SUNDAY">SUNDAY</option>
-              </select>
-              <input
-                type="time"
-                name="startTime"
-                value={schedule.startTime}
-                onChange={(e) => handleScheduleChange(index, e)}
-              />
-              <input
-                type="time"
-                name="endTime"
-                value={schedule.endTime}
-                onChange={(e) => handleScheduleChange(index, e)}
-              />
-            </div>
-          </div>
-        ))}
-        <button type="button" onClick={addSchedule}>
-          Add Schedule
-        </button>
         <div {...getRootProps({ className: "dropzone" })}>
           <input {...getInputProps()} />
           {image ? (
@@ -230,6 +154,22 @@ const CreateOfferForm = () => {
             <p>Drag 'n' drop an image here, or click to select one</p>
           )}
         </div>
+        <div className="date-picker">
+          <DatePicker
+            selected={selectedDate}
+            onChange={(date) => setSelectedDate(date)}
+            dateFormat="yyyy-MM-dd"
+            placeholderText="Select available date"
+          />
+          <button type="button" onClick={addAvailableDate}>
+            Add Date
+          </button>
+        </div>
+        <ul>
+          {form.availableDates.map((date, index) => (
+            <li key={index}>{date.toLocaleDateString()}</li>
+          ))}
+        </ul>
         <button type="submit">Create Offer</button>
       </form>
     </div>
