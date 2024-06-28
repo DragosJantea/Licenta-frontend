@@ -32,7 +32,7 @@ const App = () => {
               <Route path="/offers/:id" element={<OfferDetails />} />
             </Routes>
           </Layout>
-          <ChatBox />
+          {/* <ChatBox /> */}
         </AuthProvider>
       </Router>
     </div>
