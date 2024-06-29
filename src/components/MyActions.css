@@ -1,11 +1,13 @@
 .page-container {
-  padding-top: 60px; /* Adjust this value based on your navbar height */
+  padding-top: 60px;
 }
 
 .my-actions {
-  max-width: 800px;
+  max-width: 600px;
   margin: 2rem auto;
   padding: 1rem;
+  padding-top: 400px;
+  margin-top: 200px;
   border-radius: 5px;
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

@@ -3,10 +3,11 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: rgba(255, 192, 203, 0.25); /* 50% transparent pink */
+  /* background-color: rgba(255, 192, 203, 0.25);  */
 }
 
 .create-offer-card {
+  display: flex;
   width: 1200px; /* Increase the card width */
   height: 900px; /* Increase the card height */
   border-radius: 20px; /* Rounded borders */
@@ -14,13 +15,32 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
 }
 
-.create-offer-card img {
+.card-content {
+  display: flex;
+  width: 100%;
   height: 100%;
-  object-fit: cover;
 }
 
-.card-body {
-  width: 100%; /* Ensure it takes up full width */
+.image-container {
+  width: 50%;
+  display: flex;
+  justify-content: center; /* Center the image horizontally */
+  align-items: center; /* Center the image vertically */
+}
+
+.image-container img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: cover;
+  border-radius: 10px; /* Optional: add some rounded corners to the image */
+}
+
+.form-container {
+  width: 50%;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .card-title {
@@ -29,10 +49,14 @@
   color: #007bff; /* Bootstrap blue */
 }
 
+.form-group {
+  margin-bottom: 1rem;
+}
+
 .form-group input,
 .form-group textarea,
 .form-group select {
-  margin-bottom: 0.5rem;
+  width: 100%;
   padding: 0.75rem; /* Increase padding for better usability */
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -67,19 +91,4 @@
 
 .btn-primary:hover {
   background-color: #0056b3;
-}
-
-.btn-success {
-  padding: 0.75rem; /* Increase padding for better usability */
-  border: none;
-  background-color: #00bfa6; /* Primary color */
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
-}
-
-.btn-success:hover {
-  background-color: #009f8e;
 }

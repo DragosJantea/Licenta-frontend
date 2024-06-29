@@ -46,8 +46,8 @@
 }
 
 .offer-image {
-  max-width: 100%;
-  height: auto;
+  width: 318px;
+  height: 318px;
   margin-top: 1rem;
   border-radius: 5px;
 }
