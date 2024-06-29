@@ -107,71 +107,85 @@ const CreateOfferForm = () => {
   });
 
   return (
-    <div className="create-offer-form">
-      <h2>Create Offer</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Offer Name"
-          value={form.name}
-          onChange={handleChange}
-        />
-        <textarea
-          name="description"
-          placeholder="Description"
-          value={form.description}
-          onChange={handleChange}
-        ></textarea>
-        {vendorTypesWithMaxAttendees.includes(vendorType) && (
+    <div className="page-container">
+      <div className="create-offer-form">
+        <h2>Create Offer</h2>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="name"
+            placeholder="Offer Name"
+            value={form.name}
+            onChange={handleChange}
+            className="form-control"
+          />
+          <textarea
+            name="description"
+            placeholder="Description"
+            value={form.description}
+            onChange={handleChange}
+            className="form-control"
+          ></textarea>
+          {vendorTypesWithMaxAttendees.includes(vendorType) && (
+            <input
+              type="number"
+              name="maxAttendees"
+              placeholder="Max Attendees"
+              value={form.maxAttendees}
+              onChange={handleChange}
+              className="form-control"
+            />
+          )}
           <input
             type="number"
-            name="maxAttendees"
-            placeholder="Max Attendees"
-            value={form.maxAttendees}
+            name="price"
+            placeholder="Price"
+            value={form.price}
             onChange={handleChange}
+            className="form-control"
           />
-        )}
-        <input
-          type="number"
-          name="price"
-          placeholder="Price"
-          value={form.price}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="address"
-          placeholder="Address"
-          value={form.address}
-          onChange={handleChange}
-        />
-        <div {...getRootProps({ className: "dropzone" })}>
-          <input {...getInputProps()} />
-          {image ? (
-            <p>{image.name}</p>
-          ) : (
-            <p>Drag 'n' drop an image here, or click to select one</p>
-          )}
-        </div>
-        <div className="date-picker">
-          <DatePicker
-            selected={selectedDate}
-            onChange={(date) => setSelectedDate(date)}
-            dateFormat="yyyy-MM-dd"
-            placeholderText="Select available date"
+          <input
+            type="text"
+            name="address"
+            placeholder="Address"
+            value={form.address}
+            onChange={handleChange}
+            className="form-control"
           />
-          <button type="button" onClick={addAvailableDate}>
-            Add Date
+          <div {...getRootProps({ className: "dropzone" })}>
+            <input {...getInputProps()} />
+            {image ? (
+              <p>{image.name}</p>
+            ) : (
+              <p>Drag 'n' drop an image here, or click to select one</p>
+            )}
+          </div>
+          <div className="date-picker">
+            <DatePicker
+              selected={selectedDate}
+              onChange={(date) => setSelectedDate(date)}
+              dateFormat="yyyy-MM-dd"
+              placeholderText="Select available date"
+              className="form-control"
+            />
+            <button
+              type="button"
+              onClick={addAvailableDate}
+              className="btn btn-primary"
+            >
+              Add Date
+            </button>
+          </div>
+          <ul>
+            {form.availableDates.map((date, index) => (
+              <li key={index}>{date.toLocaleDateString()}</li>
+            ))}
+          </ul>
+          <button type="submit" className="btn btn-success">
+            Create Offer
           </button>
-        </div>
-        <ul>
-          {form.availableDates.map((date, index) => (
-            <li key={index}>{date.toLocaleDateString()}</li>
-          ))}
-        </ul>
-        <button type="submit">Create Offer</button>
-      </form>
+        </form>
+      </div>
     </div>
   );
 };

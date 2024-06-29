@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import "./Login.css";
 import { Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./Login.css";
 
 const Login = () => {
   const [form, setForm] = useState({
@@ -56,50 +57,68 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          name="username"
-          placeholder="Email"
-          value={form.username}
-          onChange={handleChange}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={form.password}
-          onChange={handleChange}
-        />
-        <div className="role-selection">
-          <label>
+    <div className="page-container">
+      <div className="login-container">
+        <h2>Login</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
             <input
-              type="radio"
-              name="role"
-              value="client"
-              checked={form.role === "client"}
-              onChange={handleRoleChange}
+              type="email"
+              name="username"
+              className="form-control"
+              placeholder="Email"
+              value={form.username}
+              onChange={handleChange}
             />
-            Client
-          </label>
-          <label>
+          </div>
+          <div className="form-group">
             <input
-              type="radio"
-              name="role"
-              value="vendor"
-              checked={form.role === "vendor"}
-              onChange={handleRoleChange}
+              type="password"
+              name="password"
+              className="form-control"
+              placeholder="Password"
+              value={form.password}
+              onChange={handleChange}
             />
-            Vendor
-          </label>
-        </div>
-        <p>
-          Don't have an account? <Link to="/register">Register</Link>
-        </p>
-        <button type="submit">Login</button>
-      </form>
+          </div>
+          <div className="form-group role-selection">
+            <div className="form-check form-check-inline">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="role"
+                id="clientRole"
+                value="client"
+                checked={form.role === "client"}
+                onChange={handleRoleChange}
+              />
+              <label className="form-check-label" htmlFor="clientRole">
+                Client
+              </label>
+            </div>
+            <div className="form-check form-check-inline">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="role"
+                id="vendorRole"
+                value="vendor"
+                checked={form.role === "vendor"}
+                onChange={handleRoleChange}
+              />
+              <label className="form-check-label" htmlFor="vendorRole">
+                Vendor
+              </label>
+            </div>
+          </div>
+          <p>
+            Don't have an account? <Link to="/register">Register</Link>
+          </p>
+          <button type="submit" className="btn btn-primary btn-block">
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

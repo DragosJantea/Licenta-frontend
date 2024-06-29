@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./ToDoList.css";
 
 const vendorTypes = [
@@ -38,22 +39,27 @@ const ToDoList = () => {
   };
 
   return (
-    <div className="to-do-list">
-      <h2>To-Do List</h2>
-      <ul>
-        {vendorTypes.map((type) => (
-          <li key={type}>
-            <label>
-              <input
-                type="checkbox"
-                checked={checkedItems.has(type)}
-                onChange={() => handleCheckboxChange(type)}
-              />
-              <span>{type}</span>
-            </label>
-          </li>
-        ))}
-      </ul>
+    <div className="page-container">
+      <div className="to-do-list card shadow-sm">
+        <div className="card-body">
+          <h2 className="card-title text-center text-primary">To-Do List</h2>
+          <ul className="list-group list-group-flush">
+            {vendorTypes.map((type) => (
+              <li key={type} className="list-group-item">
+                <label className="d-flex align-items-center">
+                  <input
+                    type="checkbox"
+                    className="form-check-input me-2"
+                    checked={checkedItems.has(type)}
+                    onChange={() => handleCheckboxChange(type)}
+                  />
+                  <span>{type}</span>
+                </label>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 };

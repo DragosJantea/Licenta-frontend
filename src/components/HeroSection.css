@@ -2,8 +2,10 @@
 .hero-section {
   position: relative;
   width: 100%;
-  height: 94.25vh;
+  height: 100vh;
   overflow: hidden;
+  margin: 0; /* Ensures no margins around the section */
+  padding: 0;
 }
 
 .hero-video {
@@ -11,13 +13,13 @@
   top: 0;
   left: 0;
   width: 100%;
-  /* height: 100%; */
+  height: 100vh;
   z-index: 1;
 }
 
 .hero-video video {
   width: 100%;
-  /* height: 100%; */
+  height: 100vh;
   object-fit: cover;
 }
 

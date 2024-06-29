@@ -2,12 +2,21 @@
   border: 1px solid #ddd;
   padding: 1rem;
   margin-bottom: 1rem;
-  border-radius: 5px;
-  background-color: #f9f9f9;
+  border-radius: 10px; /* Increase border-radius for better aesthetics */
+  background-color: #ffffff; /* Background color: white */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.offer:hover {
+  transform: translateY(-5px); /* Lift on hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
 }
 
 .offer h3 {
   margin-top: 0;
+  font-size: 1.5rem; /* Increase font size */
+  color: #333; /* Text color: dark gray */
 }
 
 .offer ul {
@@ -17,4 +26,28 @@
 
 .offer ul li {
   margin-bottom: 0.5rem;
+}
+
+.offer a {
+  text-decoration: none; /* Remove underline */
+  color: #007bff; /* Link color: blue */
+  font-weight: bold;
+  font-size: 1.5rem; /* Increase font size */
+  transition: color 0.3s ease;
+}
+
+.offer a:hover {
+  color: #f79cb2; /* Hover color: pink */
+}
+
+.offer p {
+  color: #555; /* Text color: medium gray */
+  font-size: 1rem;
+}
+
+.offer-image {
+  max-width: 100%;
+  height: auto;
+  margin-top: 1rem;
+  border-radius: 5px;
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { loadStripe } from "@stripe/stripe-js";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./MyActions.css";
 
 // Initialize Stripe with your publishable key
@@ -133,52 +134,60 @@ const MyActions = () => {
   };
 
   return (
-    <div className="my-actions">
-      <h2>Requests</h2>
-      {role === "client" ? (
-        data.length > 0 ? (
-          <ul>
-            {data.map((request) => (
-              <li key={request.offerRequestId}>
-                <div>Offer Request ID: {request.offerRequestId}</div>
-                <div>
-                  Date:{" "}
-                  {new Date(request.requestedDate).toLocaleDateString("en-CA")}
-                </div>
-                <div>Status: {request.offerRequestStatus}</div>
-                <div>Offer ID: {request.offerId}</div>
-                <div>Price: ${request.offerPrice}</div>{" "}
-                {/* Display the offer price */}
-                {request.offerRequestStatus === "ACCEPTED" && (
-                  <button
-                    className="make-payment-button"
-                    onClick={() => handleMakePayment(request.offerRequestId)}
-                  >
-                    Make Payment
-                  </button>
-                )}
-              </li>
-            ))}
-          </ul>
+    <div className="page-container">
+      <div className="my-actions container">
+        <h2 className="text-center text-primary">Requests</h2>
+        {role === "client" ? (
+          data.length > 0 ? (
+            <ul className="list-group">
+              {data.map((request) => (
+                <li key={request.offerRequestId} className="list-group-item">
+                  <div>Offer Request ID: {request.offerRequestId}</div>
+                  <div>
+                    Date:{" "}
+                    {new Date(request.requestedDate).toLocaleDateString(
+                      "en-CA"
+                    )}
+                  </div>
+                  <div>Status: {request.offerRequestStatus}</div>
+                  <div>Offer ID: {request.offerId}</div>
+                  <div>Price: ${request.offerPrice}</div>{" "}
+                  {/* Display the offer price */}
+                  {request.offerRequestStatus === "ACCEPTED" && (
+                    <button
+                      className="btn btn-success btn-sm mt-2"
+                      onClick={() => handleMakePayment(request.offerRequestId)}
+                    >
+                      Make Payment
+                    </button>
+                  )}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No offer requests found.</p>
+          )
+        ) : data.length > 0 ? (
+          data.map((offer) => (
+            <div key={offer.id} className="offer-container card mb-3">
+              <div className="card-body">
+                <h3 className="card-title">{offer.name}</h3>
+                <p className="card-text">{offer.description}</p>
+                <h4 className="card-subtitle mb-2 text-muted">
+                  Offer Requests:
+                </h4>
+                <OfferRequests
+                  offerId={offer.id}
+                  fetchOfferRequests={fetchOfferRequests}
+                  handleRequestAction={handleRequestAction}
+                />
+              </div>
+            </div>
+          ))
         ) : (
-          <p>No offer requests found.</p>
-        )
-      ) : data.length > 0 ? (
-        data.map((offer) => (
-          <div key={offer.id} className="offer-container">
-            <h3>{offer.name}</h3>
-            <p>{offer.description}</p>
-            <h4>Offer Requests:</h4>
-            <OfferRequests
-              offerId={offer.id}
-              fetchOfferRequests={fetchOfferRequests}
-              handleRequestAction={handleRequestAction}
-            />
-          </div>
-        ))
-      ) : (
-        <p>No offers found.</p>
-      )}
+          <p>No offers found.</p>
+        )}
+      </div>
     </div>
   );
 };
@@ -200,15 +209,15 @@ const OfferRequests = ({
   }, [offerId, fetchOfferRequests]);
 
   return (
-    <ul>
+    <ul className="list-group">
       {requests.map((request) => (
-        <li key={request.offerRequestId}>
+        <li key={request.offerRequestId} className="list-group-item">
           <div>Offer Request ID: {request.offerRequestId}</div>
           <div>Date: {request.offerRequestDate}</div>
           <div>Status: {request.offerRequestStatus}</div>
           <div>Client ID: {request.clientId}</div>
           <button
-            className="approve-button"
+            className="btn btn-success btn-sm mt-2 me-2"
             onClick={() =>
               handleRequestAction(request.offerRequestId, "ACCEPTED")
             }
@@ -216,7 +225,7 @@ const OfferRequests = ({
             Approve
           </button>
           <button
-            className="deny-button"
+            className="btn btn-danger btn-sm mt-2"
             onClick={() =>
               handleRequestAction(request.offerRequestId, "REJECTED")
             }

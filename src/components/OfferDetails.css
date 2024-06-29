@@ -1,4 +1,7 @@
-/* OfferDetails.css */
+.page-container {
+  padding-top: 60px; /* Adjust this value based on your navbar height */
+}
+
 .offer-details {
   max-width: 800px;
   margin: 0 auto;
@@ -109,6 +112,7 @@
   padding: 10px;
   border-radius: 5px;
   margin-bottom: 10px;
+  background-color: #f9f9f9;
 }
 
 .review p {

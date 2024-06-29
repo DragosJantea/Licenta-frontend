@@ -40,17 +40,19 @@ const MyOffers = () => {
   }, [auth]);
 
   return (
-    <div className="my-offers">
-      <h2>Offers</h2>
-      {offers.length > 0 ? (
-        offers.map((offer) => (
-          <div key={offer.id} className="offer-container">
-            <Offer offer={offer} link={`/offers/${offer.id}`} />
-          </div>
-        ))
-      ) : (
-        <p>No offers found.</p>
-      )}
+    <div className="page-container">
+      <div className="my-offers">
+        <h2>Offers</h2>
+        {offers.length > 0 ? (
+          offers.map((offer) => (
+            <div key={offer.id} className="offer-container">
+              <Offer offer={offer} link={`/offers/${offer.id}`} />
+            </div>
+          ))
+        ) : (
+          <p>No offers found.</p>
+        )}
+      </div>
     </div>
   );
 };

@@ -1,54 +1,38 @@
+.page-container {
+  padding-top: 60px; /* Adjust this value based on your navbar height */
+}
+
 .to-do-list {
   max-width: 600px;
   margin: 2rem auto;
-  padding: 2rem;
-  border: 1px solid #ddd;
   border-radius: 10px;
-  background-color: #ffffff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.to-do-list h2 {
-  text-align: center;
-  margin-bottom: 1.5rem;
+.to-do-list .card-title {
   font-size: 1.8rem;
-  color: #333;
 }
 
-.to-do-list ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.to-do-list ul li {
-  margin-bottom: 1rem;
+.to-do-list .list-group-item {
   display: flex;
   align-items: center;
   background-color: #f1f1f1;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
+  border: none;
+  border-bottom: 1px solid #ddd;
   transition: background-color 0.3s;
 }
 
-.to-do-list ul li:hover {
+.to-do-list .list-group-item:hover {
   background-color: #e9e9e9;
 }
 
-.to-do-list ul li label {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
-.to-do-list ul li input[type="checkbox"] {
+.to-do-list .form-check-input {
   margin-right: 1rem;
   accent-color: #007bff;
   width: 20px;
   height: 20px;
 }
 
-.to-do-list ul li label span {
+.to-do-list label span {
   font-size: 1.2rem;
   color: #555;
 }

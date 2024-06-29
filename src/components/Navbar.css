@@ -1,11 +1,18 @@
-/* src/components/Navbar.css */
 .header {
   display: flex;
-  justify-content: space-between; /* Space between logo and nav links */
+  justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  background-color: #fff;
+  padding: 0.5rem 1rem;
+  background-color: #ffffff; /* Background color: white */
   border-bottom: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  height: 60px; /* Ensure a fixed height */
+  margin: 0; /* Remove any default margin */
 }
 
 .logo-container {
@@ -35,10 +42,29 @@ nav {
   margin: 0 1rem;
 }
 
+.nav-links li a {
+  color: #5a5a5a; /* Text color: gray */
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.nav-links li a:hover {
+  color: #f79cb2; /* Hover color: pink */
+}
+
 .auth-button {
-  background-color: transparent;
+  background-color: #f79cb2; /* Background color: pink */
   border: none;
   cursor: pointer;
-  color: #007bff;
+  color: #ffffff; /* Text color: white */
   font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.auth-button:hover {
+  background-color: #007bff; /* Hover background color: blue */
+  color: #ffffff; /* Text color: white */
 }

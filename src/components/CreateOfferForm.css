@@ -1,15 +1,22 @@
+.page-container {
+  padding-top: 60px; /* Adjust this value based on your navbar height */
+}
+
 .create-offer-form {
   max-width: 600px;
   margin: 2rem auto;
-  padding: 1rem;
+  padding: 2rem;
   border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #f9f9f9;
+  border-radius: 10px;
+  background-color: #ffffff; /* Background color: white */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
 }
 
 .create-offer-form h2 {
   text-align: center;
   margin-bottom: 1rem;
+  font-size: 2rem;
+  color: #333; /* Text color: dark gray */
 }
 
 .create-offer-form form {
@@ -21,16 +28,17 @@
 .create-offer-form form textarea,
 .create-offer-form form select {
   margin-bottom: 0.5rem;
-  padding: 0.5rem;
+  padding: 0.75rem; /* Increase padding for better usability */
   border: 1px solid #ccc;
-  border-radius: 3px;
+  border-radius: 5px;
+  font-size: 1rem;
 }
 
 .create-offer-form .schedule {
   border: 1px solid #ddd;
   padding: 0.5rem;
   margin-bottom: 0.5rem;
-  border-radius: 3px;
+  border-radius: 5px;
   background-color: #f1f1f1;
 }
 
@@ -40,16 +48,26 @@
 }
 
 .create-offer-form form button {
-  padding: 0.5rem;
+  padding: 0.75rem; /* Increase padding for better usability */
   border: none;
   background-color: #00bfa6;
   color: white;
   cursor: pointer;
-  margin-bottom: 0.5rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.create-offer-form form button:hover {
+  background-color: #009f8e;
 }
 
 .create-offer-form form button[type="button"] {
   background-color: #007bff;
+}
+
+.create-offer-form form button[type="button"]:hover {
+  background-color: #0056b3;
 }
 
 .create-offer-form .dropzone {
@@ -58,4 +76,24 @@
   text-align: center;
   cursor: pointer;
   margin-bottom: 20px;
+}
+
+.create-offer-form .date-picker {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.create-offer-form ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.create-offer-form ul li {
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  background-color: #f1f1f1;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }

@@ -1,3 +1,7 @@
+.page-container {
+  padding-top: 60px; /* Adjust this value based on your navbar height */
+}
+
 .all-offers {
   max-width: 800px;
   margin: 2rem auto;
@@ -10,19 +14,47 @@
 .all-offers h2 {
   text-align: center;
   margin-bottom: 1rem;
+  color: #007bff; /* Bootstrap blue */
 }
 
-.filter {
-  text-align: center;
+.filter,
+.sort-options {
+  margin-bottom: 1rem;
+}
+
+.form-group {
   margin-bottom: 1rem;
 }
 
 .filter label,
+.sort-options label {
+  margin-bottom: 0.5rem;
+  color: #007bff; /* Bootstrap blue */
+}
+
 .filter select,
 .filter input,
-.filter button {
+.filter button,
+.sort-options select,
+.sort-options button {
   display: block;
-  margin: 0.5rem auto;
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.filter button,
+.sort-options button {
+  background-color: #007bff; /* Bootstrap blue */
+  color: #fff;
+  cursor: pointer;
+}
+
+.filter button:hover,
+.sort-options button:hover {
+  background-color: #0056b3; /* Darker Bootstrap blue */
 }
 
 .offer-container {
@@ -34,10 +66,6 @@
   font-size: 1.5rem;
   text-decoration: none;
   color: inherit;
-}
-
-.offer-link h3 {
-  margin: 0;
 }
 
 .offer-link:hover {

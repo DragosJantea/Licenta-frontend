@@ -1,4 +1,3 @@
-// src/components/Navbar.js
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -52,11 +51,6 @@ const Navbar = () => {
               <Link to="/myactions">Requests</Link>
             </li>
           )}
-          {/* {!auth && (
-            <li>
-              <Link to="/register">Register</Link>
-            </li>
-          )} */}
           <li>
             <button className="auth-button" onClick={handleAuthAction}>
               {auth ? "Logout" : "Login"}

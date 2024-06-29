@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./Register.css";
 
 const vendorTypes = [
@@ -54,7 +55,7 @@ const Register = () => {
             email: form.email,
             password: form.password,
             vendorType: form.vendorType,
-            // iban: form.iban,
+            iban: form.iban,
           };
 
     try {
@@ -79,87 +80,117 @@ const Register = () => {
   };
 
   return (
-    <div className="register-container">
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="firstName"
-          placeholder="First Name"
-          value={form.firstName}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="lastName"
-          placeholder="Last Name"
-          value={form.lastName}
-          onChange={handleChange}
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={form.password}
-          onChange={handleChange}
-        />
-        <div className="role-selection">
-          <label>
-            <input
-              type="radio"
-              name="role"
-              value="client"
-              checked={form.role === "client"}
-              onChange={handleRoleChange}
-            />
-            Client
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="role"
-              value="vendor"
-              checked={form.role === "vendor"}
-              onChange={handleRoleChange}
-            />
-            Vendor
-          </label>
-        </div>
-        {form.role === "vendor" && (
-          <>
-            <select
-              name="vendorType"
-              value={form.vendorType}
-              onChange={handleChange}
-            >
-              <option value="">Select Vendor Type</option>
-              {vendorTypes.map((type) => (
-                <option key={type} value={type}>
-                  {type}
-                </option>
-              ))}
-            </select>
+    <div className="page-container">
+      <div className="register-container">
+        <h2>Register</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
             <input
               type="text"
-              name="iban"
-              placeholder="IBAN"
-              value={form.iban}
+              name="firstName"
+              className="form-control"
+              placeholder="First Name"
+              value={form.firstName}
               onChange={handleChange}
             />
-          </>
-        )}
-        <p>
-          Already have an account? <Link to="/login">Login</Link>
-        </p>
-        <button type="submit">Register</button>
-      </form>
+          </div>
+          <div className="form-group">
+            <input
+              type="text"
+              name="lastName"
+              className="form-control"
+              placeholder="Last Name"
+              value={form.lastName}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="email"
+              name="email"
+              className="form-control"
+              placeholder="Email"
+              value={form.email}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="password"
+              name="password"
+              className="form-control"
+              placeholder="Password"
+              value={form.password}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-group role-selection">
+            <div className="form-check form-check-inline">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="role"
+                id="clientRole"
+                value="client"
+                checked={form.role === "client"}
+                onChange={handleRoleChange}
+              />
+              <label className="form-check-label" htmlFor="clientRole">
+                Client
+              </label>
+            </div>
+            <div className="form-check form-check-inline">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="role"
+                id="vendorRole"
+                value="vendor"
+                checked={form.role === "vendor"}
+                onChange={handleRoleChange}
+              />
+              <label className="form-check-label" htmlFor="vendorRole">
+                Vendor
+              </label>
+            </div>
+          </div>
+          {form.role === "vendor" && (
+            <>
+              <div className="form-group">
+                <select
+                  name="vendorType"
+                  value={form.vendorType}
+                  onChange={handleChange}
+                  className="form-control"
+                >
+                  <option value="">Select Vendor Type</option>
+                  {vendorTypes.map((type) => (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-group">
+                <input
+                  type="text"
+                  name="iban"
+                  className="form-control"
+                  placeholder="IBAN"
+                  value={form.iban}
+                  onChange={handleChange}
+                />
+              </div>
+            </>
+          )}
+          <p>
+            Already have an account? <Link to="/login">Login</Link>
+          </p>
+          <button type="submit" className="btn btn-primary btn-block">
+            Register
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

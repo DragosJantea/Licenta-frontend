@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Map from "./Map";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import "./OfferDetails.css";
 
 const OfferDetails = () => {
@@ -14,7 +16,7 @@ const OfferDetails = () => {
   const [reviewRating, setReviewRating] = useState(5);
   const [reviews, setReviews] = useState([]);
   const [overallRating, setOverallRating] = useState(null);
-  const [requestedDate, setRequestedDate] = useState(""); // Add state for requestedDate
+  const [requestedDate, setRequestedDate] = useState(null); // State for requestedDate
 
   useEffect(() => {
     const fetchOffer = async () => {
@@ -132,13 +134,7 @@ const OfferDetails = () => {
       return;
     }
 
-    // Format the date correctly
-    const [year, month, day] = requestedDate.split(",").map(Number);
-    const formattedDate = new Date(year, month - 1, day + 1)
-      .toISOString()
-      .split("T")[0];
-
-    console.log(formattedDate);
+    const formattedDate = requestedDate.toISOString().split("T")[0];
 
     try {
       const response = await fetch(
@@ -149,7 +145,7 @@ const OfferDetails = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${auth}`,
           },
-          body: JSON.stringify({ offerId: id, requestedDate: formattedDate }), // Use formattedDate here
+          body: JSON.stringify({ offerId: id, requestedDate: formattedDate }),
         }
       );
 
@@ -169,101 +165,97 @@ const OfferDetails = () => {
   }
 
   return (
-    <div className="offer-details">
-      <h2>{offer.name}</h2>
-      <p>{offer.description}</p>
-      {offer.imageUrl && (
-        <img src={offer.imageUrl} alt={offer.name} className="offer-image" />
-      )}
-      <h3>Location:</h3>
-      <Map lat={offer.lat} lng={offer.lng} />
-      <h3>Price: ${offer.price}</h3>
-      {overallRating !== null && <h3>Overall Rating: {overallRating}</h3>}
-      {offer.maxAttendees !== -1 && (
-        <h3>Max Attendees: {offer.maxAttendees}</h3>
-      )}
-      <h3>Available Dates:</h3>
-      <select
-        value={requestedDate}
-        onChange={(e) => setRequestedDate(e.target.value)}
-      >
-        <option value="">Select a date</option>
-        {offer.availableDates.map((date) => {
-          const incrementedDate = new Date(date);
-          incrementedDate.setDate(incrementedDate.getDate() + 1);
-          const displayDate = incrementedDate.toISOString().split("T")[0];
-          return (
-            <option key={date} value={date}>
-              {displayDate}
-            </option>
-          );
-        })}
-      </select>
-      <div className="button-group">
-        {role === "client" && (
-          <button className="button" onClick={handleRequest}>
-            Request
-          </button>
+    <div className="page-container">
+      <div className="offer-details">
+        <h2>{offer.name}</h2>
+        <p>{offer.description}</p>
+        {offer.imageUrl && (
+          <img src={offer.imageUrl} alt={offer.name} className="offer-image" />
         )}
-        {role === "client" && (
-          <button
-            className="button"
-            onClick={() => setShowReviewForm(!showReviewForm)}
-          >
-            {showReviewForm ? "Cancel Review" : "Write a Review"}
-          </button>
+        <h3>Location:</h3>
+        <Map lat={offer.lat} lng={offer.lng} />
+        <h3>Price: ${offer.price}</h3>
+        {overallRating !== null && <h3>Overall Rating: {overallRating}</h3>}
+        {offer.maxAttendees !== -1 && (
+          <h3>Max Attendees: {offer.maxAttendees}</h3>
         )}
-        <button className="button" onClick={toggleReviews}>
-          {showReviews ? "Hide Reviews" : "Show Reviews"}
-        </button>
-      </div>
-      {showReviewForm && (
-        <form onSubmit={handleReviewSubmit} className="review-form">
-          <textarea
-            value={reviewContent}
-            onChange={(e) => setReviewContent(e.target.value)}
-            placeholder="Write your review..."
-            required
-          ></textarea>
-          <select
-            value={reviewRating}
-            onChange={(e) => setReviewRating(e.target.value)}
-            required
-          >
-            {[1, 2, 3, 4, 5].map((rating) => (
-              <option key={rating} value={rating}>
-                {rating}
-              </option>
-            ))}
-          </select>
-          <button type="submit" className="button">
-            Submit Review
-          </button>
-        </form>
-      )}
-      {showReviews && (
-        <div className="reviews-section">
-          <h3>Reviews:</h3>
-          {reviews.length > 0 ? (
-            reviews.map((review) => (
-              <div key={review.id} className="review">
-                <p>
-                  <strong>Rating:</strong> {review.rating}
-                </p>
-                <p>{review.content}</p>
-                <p>
-                  <em>
-                    Reviewed on:{" "}
-                    {new Date(review.reviewedAt.join("-")).toLocaleDateString()}
-                  </em>
-                </p>
-              </div>
-            ))
-          ) : (
-            <p>No reviews found.</p>
+        <h3>Available Dates:</h3>
+        <DatePicker
+          selected={requestedDate}
+          onChange={(date) => setRequestedDate(date)}
+          dateFormat="yyyy-MM-dd"
+          includeDates={offer.availableDates.map((date) => new Date(date))}
+          placeholderText="Select a date"
+          className="form-control"
+        />
+        <div className="button-group">
+          {role === "client" && (
+            <button className="button" onClick={handleRequest}>
+              Request
+            </button>
           )}
+          {role === "client" && (
+            <button
+              className="button"
+              onClick={() => setShowReviewForm(!showReviewForm)}
+            >
+              {showReviewForm ? "Cancel Review" : "Write a Review"}
+            </button>
+          )}
+          <button className="button" onClick={toggleReviews}>
+            {showReviews ? "Hide Reviews" : "Show Reviews"}
+          </button>
         </div>
-      )}
+        {showReviewForm && (
+          <form onSubmit={handleReviewSubmit} className="review-form">
+            <textarea
+              value={reviewContent}
+              onChange={(e) => setReviewContent(e.target.value)}
+              placeholder="Write your review..."
+              required
+            ></textarea>
+            <select
+              value={reviewRating}
+              onChange={(e) => setReviewRating(e.target.value)}
+              required
+            >
+              {[1, 2, 3, 4, 5].map((rating) => (
+                <option key={rating} value={rating}>
+                  {rating}
+                </option>
+              ))}
+            </select>
+            <button type="submit" className="button">
+              Submit Review
+            </button>
+          </form>
+        )}
+        {showReviews && (
+          <div className="reviews-section">
+            <h3>Reviews:</h3>
+            {reviews.length > 0 ? (
+              reviews.map((review) => (
+                <div key={review.id} className="review">
+                  <p>
+                    <strong>Rating:</strong> {review.rating}
+                  </p>
+                  <p>{review.content}</p>
+                  <p>
+                    <em>
+                      Reviewed on:{" "}
+                      {new Date(
+                        review.reviewedAt.join("-")
+                      ).toLocaleDateString()}
+                    </em>
+                  </p>
+                </div>
+              ))
+            ) : (
+              <p>No reviews found.</p>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

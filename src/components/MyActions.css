@@ -1,15 +1,20 @@
+.page-container {
+  padding-top: 60px; /* Adjust this value based on your navbar height */
+}
+
 .my-actions {
   max-width: 800px;
   margin: 2rem auto;
   padding: 1rem;
-  border: 1px solid #ddd;
   border-radius: 5px;
-  background-color: #f9f9f9;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .my-actions h2 {
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
 }
 
 .my-actions ul {
@@ -23,6 +28,11 @@
   margin-bottom: 0.5rem;
   border-radius: 5px;
   background-color: #fff;
+  transition: background-color 0.3s;
+}
+
+.my-actions ul li:hover {
+  background-color: #f1f1f1;
 }
 
 .offer-container {
@@ -31,17 +41,20 @@
   margin-bottom: 1rem;
   border-radius: 5px;
   background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .approve-button,
 .deny-button {
-  background-color: #28a745;
   color: white;
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 3px;
   cursor: pointer;
-  margin-right: 0.5rem;
+}
+
+.approve-button {
+  background-color: #28a745;
 }
 
 .deny-button {
@@ -54,4 +67,18 @@
 
 .deny-button:hover {
   background-color: #c82333;
+}
+
+.make-payment-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.make-payment-button:hover {
+  background-color: #0056b3;
 }
