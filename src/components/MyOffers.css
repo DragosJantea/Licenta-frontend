@@ -1,30 +1,102 @@
-.my-offers {
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #f9f9f9;
+.page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: rgba(255, 192, 203, 0.25); /* 50% transparent pink */
 }
 
-.my-offers h2 {
+.my-actions-card {
+  width: 1200px; /* Increase the card width */
+  height: 900px; /* Increase the card height */
+  border-radius: 20px; /* Rounded borders */
+  overflow: hidden; /* Ensure child elements fit within the rounded border */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+.my-actions-card img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.my-actions-body {
+  padding: 2rem;
+  height: 100%;
+  overflow-y: auto; /* Add vertical scroll for overflow content */
+}
+
+.my-actions-body h2 {
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 2rem; /* Increase font size */
+}
+
+.list-group-item {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 5px;
+  background-color: #fff;
+  transition: background-color 0.3s;
+}
+
+.list-group-item:hover {
+  background-color: #f1f1f1;
 }
 
 .offer-container {
-  margin-bottom: 1.5rem;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.offer-link {
-  text-decoration: none;
-  color: inherit;
+.offer-container .card-body {
+  width: 100%; /* Ensure it takes up full width */
 }
 
-.offer-link h3 {
-  margin: 0;
+.offer-container .card-title {
+  margin-bottom: 1rem;
+  color: #007bff; /* Bootstrap blue */
 }
 
-.offer-link:hover {
-  color: pink;
+.approve-button,
+.deny-button {
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.approve-button {
+  background-color: #28a745;
+}
+
+.deny-button {
+  background-color: #dc3545;
+}
+
+.approve-button:hover {
+  background-color: #218838;
+}
+
+.deny-button:hover {
+  background-color: #c82333;
+}
+
+.make-payment-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.make-payment-button:hover {
+  background-color: #0056b3;
 }

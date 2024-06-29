@@ -1,32 +1,37 @@
 .page-container {
-  padding-top: 60px; /* Adjust this value based on your navbar height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: rgba(255, 192, 203, 0.25); /* 50% transparent pink */
 }
 
-.create-offer-form {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 2rem;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  background-color: #ffffff; /* Background color: white */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+.create-offer-card {
+  width: 1200px; /* Increase the card width */
+  height: 900px; /* Increase the card height */
+  border-radius: 20px; /* Rounded borders */
+  overflow: hidden; /* Ensure child elements fit within the rounded border */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
 }
 
-.create-offer-form h2 {
+.create-offer-card img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-body {
+  width: 100%; /* Ensure it takes up full width */
+}
+
+.card-title {
   text-align: center;
   margin-bottom: 1rem;
-  font-size: 2rem;
-  color: #333; /* Text color: dark gray */
+  color: #007bff; /* Bootstrap blue */
 }
 
-.create-offer-form form {
-  display: flex;
-  flex-direction: column;
-}
-
-.create-offer-form form input,
-.create-offer-form form textarea,
-.create-offer-form form select {
+.form-group input,
+.form-group textarea,
+.form-group select {
   margin-bottom: 0.5rem;
   padding: 0.75rem; /* Increase padding for better usability */
   border: 1px solid #ccc;
@@ -34,43 +39,7 @@
   font-size: 1rem;
 }
 
-.create-offer-form .schedule {
-  border: 1px solid #ddd;
-  padding: 0.5rem;
-  margin-bottom: 0.5rem;
-  border-radius: 5px;
-  background-color: #f1f1f1;
-}
-
-.create-offer-form .schedule-time {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.create-offer-form form button {
-  padding: 0.75rem; /* Increase padding for better usability */
-  border: none;
-  background-color: #00bfa6;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
-}
-
-.create-offer-form form button:hover {
-  background-color: #009f8e;
-}
-
-.create-offer-form form button[type="button"] {
-  background-color: #007bff;
-}
-
-.create-offer-form form button[type="button"]:hover {
-  background-color: #0056b3;
-}
-
-.create-offer-form .dropzone {
+.dropzone {
   border: 2px dashed #cccccc;
   padding: 20px;
   text-align: center;
@@ -78,22 +47,39 @@
   margin-bottom: 20px;
 }
 
-.create-offer-form .date-picker {
+.date-picker {
   display: flex;
   align-items: center;
   gap: 1rem;
   margin-bottom: 1rem;
 }
 
-.create-offer-form ul {
-  list-style-type: none;
-  padding-left: 0;
+.btn-primary {
+  padding: 0.75rem; /* Increase padding for better usability */
+  border: none;
+  background-color: #007bff; /* Bootstrap blue */
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
 }
 
-.create-offer-form ul li {
-  margin-bottom: 0.5rem;
-  padding: 0.5rem;
-  background-color: #f1f1f1;
-  border: 1px solid #ddd;
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-success {
+  padding: 0.75rem; /* Increase padding for better usability */
+  border: none;
+  background-color: #00bfa6; /* Primary color */
+  color: white;
+  cursor: pointer;
   border-radius: 5px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.btn-success:hover {
+  background-color: #009f8e;
 }

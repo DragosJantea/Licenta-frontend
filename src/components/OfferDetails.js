@@ -133,8 +133,16 @@ const OfferDetails = () => {
       alert("Please select a date.");
       return;
     }
+    requestedDate.setDate(requestedDate.getDate() + 1);
 
     const formattedDate = requestedDate.toISOString().split("T")[0];
+
+    const payload = {
+      offerId: id,
+      requestedDate: formattedDate,
+    };
+
+    console.log("Payload:", payload); // Log the payload
 
     try {
       const response = await fetch(

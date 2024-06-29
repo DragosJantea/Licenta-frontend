@@ -1,33 +1,43 @@
-/* src/components/Register.css */
-.register-container {
-  max-width: 500px;
-  margin: 2rem auto;
-  padding: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #fff;
+.page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: rgba(255, 192, 203, 0.25); /* 50% transparent pink */
 }
 
-.register-container h2 {
+.register-card {
+  width: 1200px; /* Increase the card width */
+  height: 900px; /* Increase the card height */
+  border-radius: 20px; /* Rounded borders */
+  overflow: hidden; /* Ensure child elements fit within the rounded border */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+.register-card img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-body {
+  width: 100%; /* Ensure it takes up full width */
+}
+
+.card-title {
   text-align: center;
   margin-bottom: 1rem;
   color: #007bff; /* Bootstrap blue */
 }
 
-.register-container form {
-  display: flex;
-  flex-direction: column;
-}
-
-.register-container .form-group input,
-.register-container .form-group select {
+.form-group input,
+.form-group select {
   margin-bottom: 0.5rem;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 3px;
 }
 
-.register-container .role-selection {
+.role-selection {
   display: flex;
   justify-content: space-between;
   margin-bottom: 1rem;
@@ -42,19 +52,19 @@
   margin-right: 0.5rem;
 }
 
-.register-container p {
+.card-body p {
   text-align: center;
 }
 
-.register-container a {
+.card-body a {
   color: #007bff; /* Bootstrap blue */
 }
 
-.register-container a:hover {
+.card-body a:hover {
   color: #0056b3; /* Darker Bootstrap blue */
 }
 
-.register-container button {
+.btn-primary {
   padding: 0.5rem;
   border: none;
   background-color: #007bff; /* Bootstrap blue */
@@ -62,6 +72,6 @@
   cursor: pointer;
 }
 
-.register-container button:hover {
+.btn-primary:hover {
   background-color: #0056b3; /* Darker Bootstrap blue */
 }

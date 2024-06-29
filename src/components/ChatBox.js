@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./ChatBox.css";
 import { useAuth } from "../context/AuthContext";
 
-const Chat = () => {
+const ChatBox = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const { auth, role, logout } = useAuth();
@@ -71,4 +71,4 @@ const Chat = () => {
   );
 };
 
-export default Chat;
+export default ChatBox;
