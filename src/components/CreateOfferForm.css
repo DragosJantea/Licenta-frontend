@@ -10,6 +10,7 @@
   display: flex;
   width: 1200px; /* Increase the card width */
   height: 900px; /* Increase the card height */
+  padding-top: 200px;
   border-radius: 20px; /* Rounded borders */
   overflow: hidden; /* Ensure child elements fit within the rounded border */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */

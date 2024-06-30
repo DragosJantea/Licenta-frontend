@@ -12,6 +12,11 @@ const Login = () => {
     role: "client", // Default role
   });
 
+  const [errors, setErrors] = useState({
+    username: "",
+    password: "",
+  });
+
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -24,8 +29,33 @@ const Login = () => {
     setForm({ ...form, role: e.target.value });
   };
 
+  const validateEmail = (email) => {
+    const emailRegex = /\S+@\S+\.\S+/;
+    return emailRegex.test(email);
+  };
+
+  const validatePassword = (password) => {
+    const passwordRegex =
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{8,}$/;
+    return passwordRegex.test(password);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const isValidEmail = validateEmail(form.username);
+    const isValidPassword = validatePassword(form.password);
+
+    if (!isValidEmail || !isValidPassword) {
+      setErrors({
+        username: !isValidEmail ? "Invalid email address." : "",
+        password: !isValidPassword
+          ? "Password must be at least 8 characters long, contain at least one digit, one lower case letter, one upper case letter, and one special character (@#$%^&+=)."
+          : "",
+      });
+      return;
+    }
+
     const url =
       form.role === "client"
         ? "http://localhost:8080/clients/sessions"
@@ -76,6 +106,11 @@ const Login = () => {
                     value={form.username}
                     onChange={handleChange}
                   />
+                  {errors.username && (
+                    <small className="form-text text-danger">
+                      {errors.username}
+                    </small>
+                  )}
                 </div>
                 <div className="form-group">
                   <input
@@ -86,6 +121,11 @@ const Login = () => {
                     value={form.password}
                     onChange={handleChange}
                   />
+                  {errors.password && (
+                    <small className="form-text text-danger">
+                      {errors.password}
+                    </small>
+                  )}
                 </div>
                 <div className="form-group role-selection">
                   <div className="form-check form-check-inline">

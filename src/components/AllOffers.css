@@ -1,12 +1,21 @@
-.page-container {
+.page-container1 {
+  display: flex;
   padding-top: 60px; /* Adjust this value based on your navbar height */
 }
 
+.filters-container {
+  width: 250px; /* Adjust the width as needed */
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
 .all-offers {
-  max-width: 800px;
+  flex-grow: 1;
+  max-width: calc(100% - 250px);
   margin: 2rem auto;
   padding: 1rem;
-  padding-top: 800px;
   border: 1px solid #ddd;
   border-radius: 5px;
   background-color: #f9f9f9;

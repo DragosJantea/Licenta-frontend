@@ -135,7 +135,7 @@ const MyActions = () => {
 
   return (
     <div className="page-container">
-      <div className="my-actions container">
+      <div className={`my-actions container ${role == "client" ? "wow1" : ""}`}>
         <h2 className="text-center text-primary">Requests</h2>
         {role === "client" ? (
           data.length > 0 ? (

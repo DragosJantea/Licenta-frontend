@@ -23,6 +23,7 @@ const CreateOfferForm = () => {
   });
   const [image, setImage] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null); // State for the date picker
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     const fetchVendorType = async () => {
@@ -54,6 +55,17 @@ const CreateOfferForm = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
+
+    // Clear the error message for the field being edited
+    setErrors({ ...errors, [name]: "" });
+  };
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+
+    if (!value) {
+      setErrors({ ...errors, [name]: "You must provide a valid response." });
+    }
   };
 
   const handleDrop = (acceptedFiles) => {
@@ -62,6 +74,19 @@ const CreateOfferForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate all fields before submitting
+    const newErrors = {};
+    Object.keys(form).forEach((key) => {
+      if (!form[key] && key !== "maxAttendees" && key !== "availableDates") {
+        newErrors[key] = "You must provide a valid response.";
+      }
+    });
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
 
     if (!vendorTypesWithMaxAttendees.includes(vendorType)) {
       form.maxAttendees = -1;
@@ -123,8 +148,12 @@ const CreateOfferForm = () => {
                   placeholder="Offer Name"
                   value={form.name}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   className="form-control"
                 />
+                {errors.name && (
+                  <small className="text-danger">{errors.name}</small>
+                )}
               </div>
               <div className="form-group">
                 <textarea
@@ -132,8 +161,12 @@ const CreateOfferForm = () => {
                   placeholder="Description"
                   value={form.description}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   className="form-control"
                 ></textarea>
+                {errors.description && (
+                  <small className="text-danger">{errors.description}</small>
+                )}
               </div>
               {vendorTypesWithMaxAttendees.includes(vendorType) && (
                 <div className="form-group">
@@ -143,8 +176,12 @@ const CreateOfferForm = () => {
                     placeholder="Max Attendees"
                     value={form.maxAttendees}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     className="form-control"
                   />
+                  {errors.maxAttendees && (
+                    <small className="text-danger">{errors.maxAttendees}</small>
+                  )}
                 </div>
               )}
               <div className="form-group">
@@ -154,8 +191,12 @@ const CreateOfferForm = () => {
                   placeholder="Price"
                   value={form.price}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   className="form-control"
                 />
+                {errors.price && (
+                  <small className="text-danger">{errors.price}</small>
+                )}
               </div>
               <div className="form-group">
                 <input
@@ -164,8 +205,12 @@ const CreateOfferForm = () => {
                   placeholder="Address"
                   value={form.address}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   className="form-control"
                 />
+                {errors.address && (
+                  <small className="text-danger">{errors.address}</small>
+                )}
               </div>
               <div {...getRootProps({ className: "dropzone" })}>
                 <input {...getInputProps()} />

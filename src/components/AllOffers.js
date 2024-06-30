@@ -321,155 +321,137 @@ const AllOffers = () => {
     });
 
   return (
-    <div className="page-container">
-      <div className="all-offers">
-        <h2 className="text-center">All Offers</h2>
-        <div className="text-center mb-3">
-          <button
-            className="btn btn-primary"
-            onClick={() => setShowFilters(!showFilters)}
-          >
-            {showFilters ? "Hide Filters" : "Filter Offers"}
-          </button>
-          <button
-            className="btn btn-secondary ml-2"
-            onClick={() => setShowSorts(!showSorts)}
-          >
-            {showSorts ? "Hide Sort Options" : "Sort Offers"}
-          </button>
-        </div>
-        {showFilters && (
-          <div className="filter">
-            <div className="form-group">
-              <label htmlFor="vendorType">Filter by Vendor Type: </label>
-              <select
-                id="vendorType"
-                value={selectedVendorType}
-                onChange={handleFilterChange}
-                className="form-control"
-              >
-                <option value="">All</option>
-                {vendorTypes.map((type) => (
-                  <option key={type} value={type}>
-                    {type}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="form-group">
-              <label htmlFor="location">Enter Location: </label>
-              <input
-                type="text"
-                id="location"
-                value={location}
-                onChange={handleLocationChange}
-                placeholder="Enter address"
-                className="form-control"
-              />
-              <button
-                className="btn btn-primary mt-2"
-                onClick={handleLocationSubmit}
-              >
-                Geocode Location
-              </button>
-            </div>
-            <div className="form-group">
-              <label htmlFor="startDate">Start Date: </label>
-              <input
-                type="date"
-                id="startDate"
-                value={startDate}
-                onChange={handleStartDateChange}
-                className="form-control"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="endDate">End Date: </label>
-              <input
-                type="date"
-                id="endDate"
-                value={endDate}
-                onChange={handleEndDateChange}
-                className="form-control"
-              />
-            </div>
+    <div className="page-container1">
+      <div className="filters-container">
+        <div className="filter">
+          <div className="form-group">
+            <label htmlFor="vendorType">Filter by Vendor Type: </label>
+            <select
+              id="vendorType"
+              value={selectedVendorType}
+              onChange={handleFilterChange}
+              className="form-control"
+            >
+              <option value="">All</option>
+              {vendorTypes.map((type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              ))}
+            </select>
           </div>
-        )}
-        {showSorts && (
-          <div className="sort-options">
+          <div className="form-group">
+            <label htmlFor="location">Enter Location: </label>
+            <input
+              type="text"
+              id="location"
+              value={location}
+              onChange={handleLocationChange}
+              placeholder="Enter address"
+              className="form-control"
+            />
+            <button
+              className="btn btn-primary mt-2"
+              onClick={handleLocationSubmit}
+            >
+              Geocode Location
+            </button>
+          </div>
+          <div className="form-group">
+            <label htmlFor="startDate">Start Date: </label>
+            <input
+              type="date"
+              id="startDate"
+              value={startDate}
+              onChange={handleStartDateChange}
+              className="form-control"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="endDate">End Date: </label>
+            <input
+              type="date"
+              id="endDate"
+              value={endDate}
+              onChange={handleEndDateChange}
+              className="form-control"
+            />
+          </div>
+        </div>
+        <div className="sort-options">
+          <div className="form-group">
+            <label htmlFor="priceSortOrder">Sort by Price: </label>
+            <select
+              id="priceSortOrder"
+              value={priceSortOrder}
+              onChange={handlePriceSortChange}
+              className="form-control"
+            >
+              <option value="">None</option>
+              <option value="price-asc">Ascending</option>
+              <option value="price-desc">Descending</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="reviewSortOrder">Sort by Number of Reviews: </label>
+            <select
+              id="reviewSortOrder"
+              value={reviewSortOrder}
+              onChange={handleReviewSortChange}
+              className="form-control"
+            >
+              <option value="">None</option>
+              <option value="reviews-asc">Ascending</option>
+              <option value="reviews-desc">Descending</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="ratingSortOrder">Sort by Overall Rating: </label>
+            <select
+              id="ratingSortOrder"
+              value={ratingSortOrder}
+              onChange={handleRatingSortChange}
+              className="form-control"
+            >
+              <option value="">None</option>
+              <option value="rating-asc">Ascending</option>
+              <option value="rating-desc">Descending</option>
+            </select>
+          </div>
+          {selectedVendorType === "VENUES" && (
             <div className="form-group">
-              <label htmlFor="priceSortOrder">Sort by Price: </label>
-              <select
-                id="priceSortOrder"
-                value={priceSortOrder}
-                onChange={handlePriceSortChange}
-                className="form-control"
-              >
-                <option value="">None</option>
-                <option value="price-asc">Ascending</option>
-                <option value="price-desc">Descending</option>
-              </select>
-            </div>
-            <div className="form-group">
-              <label htmlFor="reviewSortOrder">
-                Sort by Number of Reviews:{" "}
+              <label htmlFor="attendeesSortOrder">
+                Sort by Max Attendees:{" "}
               </label>
               <select
-                id="reviewSortOrder"
-                value={reviewSortOrder}
-                onChange={handleReviewSortChange}
+                id="attendeesSortOrder"
+                value={attendeesSortOrder}
+                onChange={handleAttendeesSortChange}
                 className="form-control"
               >
                 <option value="">None</option>
-                <option value="reviews-asc">Ascending</option>
-                <option value="reviews-desc">Descending</option>
+                <option value="attendees-asc">Ascending</option>
+                <option value="attendees-desc">Descending</option>
               </select>
             </div>
-            <div className="form-group">
-              <label htmlFor="ratingSortOrder">Sort by Overall Rating: </label>
-              <select
-                id="ratingSortOrder"
-                value={ratingSortOrder}
-                onChange={handleRatingSortChange}
-                className="form-control"
-              >
-                <option value="">None</option>
-                <option value="rating-asc">Ascending</option>
-                <option value="rating-desc">Descending</option>
-              </select>
-            </div>
-            {selectedVendorType === "VENUES" && (
-              <div className="form-group">
-                <label htmlFor="attendeesSortOrder">
-                  Sort by Max Attendees:{" "}
-                </label>
-                <select
-                  id="attendeesSortOrder"
-                  value={attendeesSortOrder}
-                  onChange={handleAttendeesSortChange}
-                  className="form-control"
-                >
-                  <option value="">None</option>
-                  <option value="attendees-asc">Ascending</option>
-                  <option value="attendees-desc">Descending</option>
-                </select>
-              </div>
-            )}
-            <div className="form-group">
-              <label htmlFor="proximitySortOrder">Sort by Proximity: </label>
-              <select
-                id="proximitySortOrder"
-                value={proximitySortOrder}
-                onChange={handleProximitySortChange}
-                className="form-control"
-              >
-                <option value="">None</option>
-                <option value="proximity-asc">Ascending</option>
-                <option value="proximity-desc">Descending</option>
-              </select>
-            </div>
+          )}
+          <div className="form-group">
+            <label htmlFor="proximitySortOrder">Sort by Proximity: </label>
+            <select
+              id="proximitySortOrder"
+              value={proximitySortOrder}
+              onChange={handleProximitySortChange}
+              className="form-control"
+            >
+              <option value="">None</option>
+              <option value="proximity-asc">Ascending</option>
+              <option value="proximity-desc">Descending</option>
+            </select>
           </div>
-        )}
+        </div>
+      </div>
+      <div className="all-offers">
+        <h2 className="text-center">All Offers</h2>
         {sortedOffers.length > 0 ? (
           sortedOffers.map((offer) => (
             <div key={offer.id} className="offer-container">

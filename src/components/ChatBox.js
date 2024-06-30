@@ -55,18 +55,20 @@ const ChatBox = () => {
           </div>
         ))}
       </div>
-      <input
-        type="text"
-        value={input}
-        onChange={(e) => handlePromptChange(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            handleSendMessage();
-          }
-        }}
-        placeholder="Type a message..."
-      />
-      <button onClick={handleSendMessage}>Send</button>
+      <div className="chatbox-class">
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => handlePromptChange(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSendMessage();
+            }
+          }}
+          placeholder="Type a message..."
+        />
+        <button onClick={handleSendMessage}>Send</button>
+      </div>
     </div>
   );
 };
